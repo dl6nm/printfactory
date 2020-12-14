@@ -1,3 +1,6 @@
+import subprocess
+
+
 class Printer:
     """
     Main printer class
@@ -7,10 +10,28 @@ class Printer:
         - auto-check
             - available pdf reader (Acrobat, Adobe Reader, Foxit Reader
             - available printers (get list)
+        - print document
     """
 
-    def __init__(self, printer: str, driver: str = None, port: str = None):
-        pass
+    def __init__(self, name: str = None, driver: str = None, port: str = None):
+        """
+        Base printfactory class
+
+        :param name: Name of the printer, use systems default printer if not given
+        :param driver: Driver name that should be used
+        :param port: Port of the printer
+        """
+        self.middleware = 'AdobeReader'
+
+        self.name: str = name
+        self.driver: str = driver
+        self.port: str = port
+
+    def print_file(self, filename):
+        if self.middleware in ['AdobeReader', 'AdobeAcrobat']:
+            # if windows
+            subprocess.run(['AcroRd32.exe', '/t', 'my.pdf', self.name, self.driver, self.port])
+        return True
 
 
 class AcroPrinter(Printer):
@@ -43,21 +64,19 @@ class FoxitPrinter(Printer):
     options = {}
 
 
-class LprPrinter(Printer):
+class LPRPrinter(Printer):
     """
     macOS LPR printer class
+
+    lpr [options] file(s)
+        -H server[:port]
+             Specify an alternate server.
+        -P destination[/instance]
+             Print files to the named printer.
+        -# copies
+             Sets the number of copies to print.
     """
     options = {}
-
-
-class PrintFactory:
-    """
-
-
-        - initialize printer
-        - print document
-    """
-    pass
 
 
 if __name__ == '__main__':

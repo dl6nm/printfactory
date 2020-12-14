@@ -1,13 +1,13 @@
 [tool.poetry]
-name = "print-factory"
+name = "printfactory"
 version = "0.1.0"
-description = "Printing PDF files to a local installed printer on your system"
+description = "Print PDF files to a local installed printer"
 authors = ["dl6nm <mail@dl6nm.de>"]
-homepage = "https://github.com/dl6nm/print-factory"
+homepage = "https://github.com/dl6nm/printfactory"
 readme = "README.md"
 
 [tool.poetry.scripts]
-print-factory = "print-factory"
+printfactory = "printfactory"
 
 [tool.poetry.dependencies]
 python = "^3.8.5"

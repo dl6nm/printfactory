@@ -1,6 +1,6 @@
-# print-factory
+# printfactory
 
-`print-factory` is a package, primarily for printing PDF files to a physical printer.
+`printfactory` is a package, primarily for printing PDF files to a physical printer.
 
 [comment]: <> ([![Badges @ Shields IO][shield-badges]][shields])
 [comment]: <> ([![Version?][shield-version]][shields])

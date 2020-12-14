@@ -1,4 +1,4 @@
-# print-factory Changelog
+# printfactory Changelog
 
 All notable changes to this project will be documented in this file.
 
@@ -18,10 +18,10 @@ and this project adheres to [Semantic Versioning].
 No releases yet...
 
 
-[unreleased]: https://github.com/dl6nm/print-factory/compare/master...develop
-[0.1.0]: https://github.com/dl6nm/print-factory/releases/tag/0.1.0
+[unreleased]: https://github.com/dl6nm/printfactory/compare/master...develop
+[0.1.0]: https://github.com/dl6nm/printfactory/releases/tag/0.1.0
 
-[releases]: https://github.com/dl6nm/print-factory/releases
+[releases]: https://github.com/dl6nm/printfactory/releases
 
 [Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html

@@ -1,4 +1,38 @@
+import pathlib
+import platform
 import subprocess
+
+from enum import Enum
+
+
+def list_printers() -> list:
+    """Get a list of installed printers
+
+    :return: List of printers
+    """
+    args = None
+    pltfrm = platform.system()
+    if pltfrm == 'Windows':
+        args = ['wmic', 'printer', 'get', 'name']
+    elif pltfrm == 'Darwin':
+        args = 'lpstat', '-p', '|', 'awk', '"{print $2}"'
+
+    proc = subprocess.run(
+        args=args,
+        capture_output=True,
+        encoding='utf-8',
+        text=True,
+    )
+
+    lines = proc.stdout.splitlines()
+    printers = []
+
+    for line in lines:
+        line = line.strip()
+        if line not in ['', 'Name', '\n']:
+            printers.append(line)
+
+    return printers
 
 
 class Printer:

@@ -1,4 +1,3 @@
-import subprocess
 import pytest
 
 import printfactory
@@ -11,7 +10,7 @@ import printfactory
     ],
     ids=None,
 )
-def test_printer(name, driver, port, filename):
+def test_printer_windows(name, driver, port, filename):
     printer = printfactory.Printer(
         name=name,
         driver=driver,
@@ -21,3 +20,8 @@ def test_printer(name, driver, port, filename):
     assert printer.driver is driver
     assert printer.port is port
     assert printer.print_file(filename) is True
+
+
+def test_list_printers():
+    printers = printfactory.list_printers()
+    assert 'Fax' in printers

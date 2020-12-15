@@ -35,6 +35,17 @@ def list_printers() -> list:
     return printers
 
 
+class PrintToolEnum(str, Enum):
+    ADOBE_ACROBAT = 'Adobe Acrobat'
+    ADOBE_READER = 'Adobe Reader'
+    FOXIT_READER = 'Foxit Reader'
+
+
+class PrintTool:
+    name: PrintToolEnum
+    path: pathlib.Path
+
+
 class Printer:
     """
     Main printer class
@@ -42,24 +53,36 @@ class Printer:
         - initialize Printer class
         - set printer options
         - auto-check
-            - available pdf reader (Acrobat, Adobe Reader, Foxit Reader
+            - available pdf reader (Acrobat, Adobe Reader, Foxit Reader, ...)
             - available printers (get list)
         - print document
     """
 
-    def __init__(self, name: str = None, driver: str = None, port: str = None):
+    def __init__(
+            self,
+            name: str = None,
+            driver: str = None,
+            port: str = None,
+            print_tool: PrintTool = None,
+    ):
         """
         Base printfactory class
 
         :param name: Name of the printer, use systems default printer if not given
         :param driver: Driver name that should be used
         :param port: Port of the printer
+        :param print_tool: Platform dependent tool, used for printing a file
         """
-        self.middleware = 'AdobeReader'
-
         self.name: str = name
         self.driver: str = driver
         self.port: str = port
+        self.print_tool = print_tool
+
+        if print_tool is None:
+            if platform.system() == 'Windows':
+                self.print_tool = PrintToolEnum.ADOBE_READER
+            else:
+                exit(1)
 
     def print_file(self, filename):
         if self.middleware in ['AdobeReader', 'AdobeAcrobat']:
@@ -71,6 +94,8 @@ class Printer:
 class AcroPrinter(Printer):
     """
     Adobe Acrobat DC and Adobe Reader specific printer class
+
+    !!! Windows only !!!
 
     Using Adobe Reader (AcroRd32.exe) or Adobe Acrobat (Acrobat.exe)
 
@@ -88,6 +113,9 @@ class AcroPrinter(Printer):
         PORTNAME        The printer’s port. PORTNAME cannot contain any "/" characters;
                         if it does, output is routed to the default port for that printer.
     """
+    path = {
+        # default path: Program Files\Adobe\<product name and version>
+    }
     options = {}
 
 

@@ -14,14 +14,17 @@ def list_printers() -> list:
     pltfrm = platform.system()
     if pltfrm == 'Windows':
         args = ['wmic', 'printer', 'get', 'name']
+        shell = False
     elif pltfrm == 'Darwin':
-        args = 'lpstat', '-p', '|', 'awk', '"{print $2}"'
+        args = ["lpstat -p | awk '{print $2}'"]
+        shell = True
 
     proc = subprocess.run(
         args=args,
         capture_output=True,
         encoding='utf-8',
         text=True,
+        shell=shell,
     )
 
     lines = proc.stdout.splitlines()
@@ -142,5 +145,4 @@ class LPRPrinter(Printer):
 
 
 if __name__ == '__main__':
-    from sys import version
-    print(version)
+    print(f'printers = {list_printers()}')

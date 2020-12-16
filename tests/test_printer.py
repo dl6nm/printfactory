@@ -5,29 +5,30 @@ import pytest
 import printfactory
 
 
+def test_list_printers():
+    printers = printfactory.list_printers()
+    assert len(printers) > 0
+
+
 @pytest.mark.parametrize(
-    argnames=['name', 'driver', 'port', 'filename'],
+    argnames=['name', 'driver', 'port', 'print_tool', 'filename'],
     argvalues=[
-        ['Office Printer', None, None, 'my.pdf'],
-        ['My second printer', 'Optional print driver', 1234, 'my.pdf'],
+        ['Office Printer', None, None, None, 'my.pdf'],
+        ['My second printer', 'Optional print driver', 1234, None, 'my.pdf'],
     ],
     ids=None,
 )
-def test_printer(name, driver, port, filename, datadir):
+def test_printer(name, driver, port, filename, print_tool, shared_datadir):
     printer = printfactory.Printer(
         name=name,
         driver=driver,
         port=port,
-        print_tool=None,
+        print_tool=print_tool,
     )
-    file = pathlib.Path(datadir) / filename
+
+    file = (shared_datadir / filename)
 
     assert printer.name is name
     assert printer.driver is driver
     assert printer.port is port
-    assert printer.print_file(file) is True
-
-
-def test_list_printers():
-    printers = printfactory.list_printers()
-    assert len(printers) > 0
+    assert printer.send(file) is True

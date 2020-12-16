@@ -90,11 +90,31 @@ class Printer:
             else:
                 raise NotImplementedError
 
-    def print_file(self, filename):
-        if self.middleware in ['AdobeReader', 'AdobeAcrobat']:
-            # if windows
-            subprocess.run(['AcroRd32.exe', '/t', 'my.pdf', self.name, self.driver, self.port])
-        return True
+    def send(self, file: pathlib.Path) -> bool:
+        """
+        Send a file to the printer
+
+        :param file: File-like object
+        :return: True if file was sent to printer, False otherwise
+        """
+        if not file.is_file():
+            raise FileNotFoundError
+
+        proc = subprocess.run(
+            [
+                self.print_tool.path,
+                '/t',
+                file,
+                self.name,
+                self.driver,
+                self.port,
+            ]
+        )
+
+        if proc.returncode == 0:
+            return True
+        else:
+            return False
 
 
 class AcroPrinter(Printer):

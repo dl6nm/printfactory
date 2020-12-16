@@ -11,10 +11,10 @@ def list_printers() -> list:
     :return: List of printers
     """
     args = None
+    shell = False
     pltfrm = platform.system()
     if pltfrm == 'Windows':
         args = ['wmic', 'printer', 'get', 'name']
-        shell = False
     elif pltfrm == 'Darwin':
         args = ["lpstat -p | awk '{print $2}'"]
         shell = True

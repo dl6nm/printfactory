@@ -81,11 +81,14 @@ class Printer:
         self.port: str = port
         self.print_tool = print_tool
 
+        pltfrm = platform.system()
         if print_tool is None:
-            if platform.system() == 'Windows':
+            if pltfrm == 'Windows':
                 self.print_tool = PrintToolEnum.ADOBE_READER
+            elif pltfrm == 'Darwin':
+                raise NotImplementedError
             else:
-                exit(1)
+                raise NotImplementedError
 
     def print_file(self, filename):
         if self.middleware in ['AdobeReader', 'AdobeAcrobat']:

@@ -20,10 +20,10 @@ def test_list_printers():
 )
 def test_printer(name, driver, port, filename, print_tool, shared_datadir):
     printer = printfactory.Printer(
-        name=name,
-        driver=driver,
-        port=port,
-        print_tool=print_tool,
+        printer_name=name,
+        driver_name=driver,
+        port_name=port,
+        # print_tool=print_tool,
     )
 
     file = (shared_datadir / filename)

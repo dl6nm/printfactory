@@ -63,53 +63,49 @@ class Printer:
 
     def __init__(
             self,
-            name: str = None,
-            driver: str = None,
-            port: str = None,
-            print_tool: PrintTool = None,
+            printer_name: str = None,
+            driver_name: str = None,
+            port_name: str = None,
+            # print_tool: PrintTool = None,
     ):
         """
         Base printfactory class
 
-        :param name: Name of the printer, use systems default printer if not given
-        :param driver: Driver name that should be used
-        :param port: Port of the printer
+        :param printer_name: Name of the printer, use systems default printer if not given
+        :param driver_name: Driver name that should be used
+        :param port_name: Port of the printer
         :param print_tool: Platform dependent tool, used for printing a file
         """
-        self.name: str = name
-        self.driver: str = driver
-        self.port: str = port
-        self.print_tool = print_tool
+        self.name: str = printer_name
+        self.driver: str = driver_name
+        self.port: str = port_name
+        # self.print_tool = print_tool
 
         pltfrm = platform.system()
-        if print_tool is None:
-            if pltfrm == 'Windows':
-                self.print_tool = PrintToolEnum.ADOBE_READER
-            elif pltfrm == 'Darwin':
-                raise NotImplementedError
-            else:
-                raise NotImplementedError
+        # if print_tool is None:
+        if pltfrm == 'Windows':
+            self.print_tool = AdobeReader(
+                printer=self.name,
+                driver=self.driver,
+                port=self.port,
+            )
+        elif pltfrm == 'Darwin':
+            raise NotImplementedError
+        else:
+            raise NotImplementedError
 
-    def send(self, file: pathlib.Path) -> bool:
+    def send(self, print_file: pathlib.Path) -> bool:
         """
         Send a file to the printer
 
-        :param file: File-like object
+        :param print_file: File-like object that should be printed
         :return: True if file was sent to printer, False otherwise
         """
-        if not file.is_file():
+        if not print_file.is_file():
             raise FileNotFoundError
 
-        proc = subprocess.run(
-            [
-                self.print_tool.path,
-                '/t',
-                file,
-                self.name,
-                self.driver,
-                self.port,
-            ]
-        )
+        args = self.print_tool.get_args(print_file=print_file)
+        proc = subprocess.run(args)
 
         if proc.returncode == 0:
             return True

@@ -2,7 +2,7 @@ import pathlib
 import platform
 import subprocess
 
-from enum import Enum
+from printfactory.models.print_tools import AdobeReader
 
 
 def list_printers() -> list:
@@ -36,17 +36,6 @@ def list_printers() -> list:
             printers.append(line)
 
     return printers
-
-
-class PrintToolEnum(str, Enum):
-    ADOBE_ACROBAT = 'Adobe Acrobat'
-    ADOBE_READER = 'Adobe Reader'
-    FOXIT_READER = 'Foxit Reader'
-
-
-class PrintTool:
-    name: PrintToolEnum
-    path: pathlib.Path
 
 
 class Printer:
@@ -113,55 +102,7 @@ class Printer:
             return False
 
 
-class AcroPrinter(Printer):
-    """
-    Adobe Acrobat DC and Adobe Reader specific printer class
-
-    !!! Windows only !!!
-
-    Using Adobe Reader (AcroRd32.exe) or Adobe Acrobat (Acrobat.exe)
-
-    AcroRd32.exe [OPTIONS] PATHNAME
-        /n  Start a separate instance of Acrobat or Adobe Reader, even if one is currently open.
-        /s  Suppress the splash screen.
-        /o  Suppress the open file dialog box.
-        /h  Start Acrobat or Adobe Reader in a minimized window.
-        /p  Start Adobe Reader and display the Print dialog box.
-
-    AcroRd32.exe /t PATH [PRINTERNAME] [DRIVERNAME] [PORTNAME]
-        Start Adobe Reader and print a file while suppressing the Print dialog box. The PATH must be fully specified.
-        PRINTERNAME     The name of your printer. If not specified, the systems default printer is used.
-        DRIVERNAME      Your printer driver’s name, as it appears in your printer’s properties.
-        PORTNAME        The printer’s port. PORTNAME cannot contain any "/" characters;
-                        if it does, output is routed to the default port for that printer.
-    """
-    path = {
-        # default path: Program Files\Adobe\<product name and version>
-    }
-    options = {}
-
-
-class FoxitPrinter(Printer):
-    """
-    Foxit Reader specific printer class
-    """
-    options = {}
-
-
-class LPRPrinter(Printer):
-    """
-    macOS LPR printer class
-
-    lpr [options] file(s)
-        -H server[:port]
-             Specify an alternate server.
-        -P destination[/instance]
-             Print files to the named printer.
-        -# copies
-             Sets the number of copies to print.
-    """
-    options = {}
-
-
 if __name__ == '__main__':
-    print(f'printers = {list_printers()}')
+    printer = Printer('EPSON AL-C2800N')
+    file = pathlib.Path('../tests/data/my.pdf')
+    printer.send(print_file=file)

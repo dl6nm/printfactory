@@ -3,14 +3,14 @@ name = "printfactory"
 version = "0.1.0"
 description = "Print PDF files to a local installed printer"
 authors = ["dl6nm <mail@dl6nm.de>"]
-homepage = "https://github.com/dl6nm/printfactory"
+repository = "https://github.com/dl6nm/printfactory"
 readme = "README.md"
 
-[tool.poetry.scripts]
-printfactory = "printfactory"
+# [tool.poetry.scripts]
+# printfactory = "printfactory"
 
 [tool.poetry.dependencies]
-python = "^3.8.5"
+python = "^3.8"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.1.2"

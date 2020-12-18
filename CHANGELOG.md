@@ -7,11 +7,13 @@ and this project adheres to [Semantic Versioning].
 
 ## [Unreleased]
 
-### [0.1.0] (2020-12-11)
+### [0.1.0] (2020-12-18)
 
 #### Added
 
 - add basic app skeleton example with tests and docs
+- add function to get a list of installed printers
+- add printer class for sending a file to a printer
 
 ## [Releases]
 

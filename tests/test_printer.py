@@ -1,5 +1,3 @@
-import pathlib
-
 import pytest
 
 import printfactory
@@ -26,9 +24,9 @@ def test_printer(name, driver, port, filename, print_tool, shared_datadir):
         # print_tool=print_tool,
     )
 
-    file = (shared_datadir / filename)
-
     assert printer.name is name
     assert printer.driver is driver
     assert printer.port is port
+
+    file = (shared_datadir / filename)
     # assert printer.send(file) is True

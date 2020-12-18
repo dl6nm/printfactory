@@ -95,7 +95,10 @@ class Printer:
             raise FileNotFoundError
 
         args = self.print_tool.get_args(print_file=print_file)
-        proc = subprocess.run(args=args, timeout=timeout)
+        try:
+            proc = subprocess.run(args=args, timeout=timeout)
+        except subprocess.TimeoutExpired:
+            pass
 
 
 if __name__ == '__main__':

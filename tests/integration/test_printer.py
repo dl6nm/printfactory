@@ -11,10 +11,9 @@ def test_list_printers():
 @pytest.mark.parametrize(
     argnames=['name', 'driver', 'port', 'print_tool', 'filename'],
     argvalues=[
-        ['Office Printer', None, None, None, 'my.pdf'],
-        ['My second printer', 'Optional print driver', 1234, None, 'my.pdf'],
+        ['EPSON AL-C2800N', None, None, None, 'my.pdf'],
+        ['EPSON AL-C2800N', 'Optional print driver', 1234, None, 'my.pdf'],
     ],
-    ids=None,
 )
 def test_printer(name, driver, port, filename, print_tool, shared_datadir):
     printer = printfactory.Printer(
@@ -29,4 +28,4 @@ def test_printer(name, driver, port, filename, print_tool, shared_datadir):
     assert printer.port is port
 
     file = (shared_datadir / filename)
-    # assert printer.send(file) is True
+    assert printer.send(file, timeout=10) is None

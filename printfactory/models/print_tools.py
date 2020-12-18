@@ -30,30 +30,31 @@ class AdobeReader(BaseModel):
     _programfiles: str = os.getenv('PROGRAMFILES(X86)')
     app_path: pathlib.Path = pathlib.Path(f'{_programfiles}/Adobe/Acrobat Reader DC/Reader/AcroRd32.exe')
 
-    printer: str = None
-    driver: str = None
-    port: str = None
+    printer_name: str = None
+    driver_name: str = None
+    port_name: str = None
 
-    def __init__(self, printer=None, driver=None, port=None) -> None:
-        super().__init__(printer=printer, driver=driver, port=port)
-        self.printer: str = printer
-        self.driver: str = driver
-        self.port: str = port
+    def __init__(self, printer_name=None, driver_name=None, port_name=None) -> None:
+        super().__init__(printer=printer_name, driver=driver_name, port=port_name)
+
+        self.printer_name: str = printer_name
+        self.driver_name: str = driver_name
+        self.port_name: str = port_name
+
+        if not self.printer_name and (self.driver_name or self.port_name):
+            raise TypeError('Missing printer')
+        elif not self.driver_name and self.port_name:
+            raise TypeError('Missing driver')
 
     def get_args(self, print_file: pathlib.Path) -> list:
         args = [
             self.app_path,
             '/t',
             print_file.absolute(),
-            self.printer,
-            self.driver,
-            self.port,
+            self.printer_name,
+            self.driver_name,
+            self.port_name,
         ]
-
-        if not self.printer and self.driver:
-            raise TypeError('Missing printer')
-        elif not self.driver and self.port:
-            raise TypeError('Missing driver')
 
         return list(filter(None, args))
 

@@ -74,9 +74,9 @@ class Printer:
         # if print_tool is None:
         if pltfrm == 'Windows':
             self.print_tool = AdobeReader(
-                printer=self.name,
-                driver=self.driver,
-                port=self.port,
+                printer_name=self.name,
+                driver_name=self.driver,
+                port_name=self.port,
             )
         elif pltfrm == 'Darwin':
             raise NotImplementedError

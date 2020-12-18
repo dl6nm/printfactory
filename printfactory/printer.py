@@ -83,26 +83,22 @@ class Printer:
         else:
             raise NotImplementedError
 
-    def send(self, print_file: pathlib.Path) -> bool:
+    def send(self, print_file: pathlib.Path, timeout=30) -> None:
         """
         Send a file to the printer
 
         :param print_file: File-like object that should be printed
+        :param timeout: Timeout in seconds
         :return: True if file was sent to printer, False otherwise
         """
         if not print_file.is_file():
             raise FileNotFoundError
 
         args = self.print_tool.get_args(print_file=print_file)
-        proc = subprocess.run(args)
-
-        if proc.returncode == 0:
-            return True
-        else:
-            return False
+        proc = subprocess.run(args=args, timeout=timeout)
 
 
 if __name__ == '__main__':
     printer = Printer('EPSON AL-C2800N')
-    file = pathlib.Path('../tests/data/my.pdf')
+    file = pathlib.Path('../tests/integration/data/my.pdf')
     printer.send(print_file=file)

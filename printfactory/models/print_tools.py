@@ -26,9 +26,9 @@ class AdobeReader(BaseModel):
         PORTNAME        The printer’s port. PORTNAME cannot contain any "/" characters;
                         if it does, output is routed to the default port for that printer.
     """
-    name = 'Adobe Reader',
-    _programfiles = os.getenv('PROGRAMFILES(X86)')
-    app_path = pathlib.Path(f'{_programfiles}/Adobe/Acrobat Reader DC/Reader/AcroRd32.exe')
+    name: str = 'Adobe Reader'
+    _programfiles: str = os.getenv('PROGRAMFILES(X86)')
+    app_path: pathlib.Path = pathlib.Path(f'{_programfiles}/Adobe/Acrobat Reader DC/Reader/AcroRd32.exe')
 
     printer: str = None
     driver: str = None

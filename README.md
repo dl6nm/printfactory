@@ -1,8 +1,20 @@
-[![License?][shield-license]](LICENSE)
-
 # printfactory
 
 `printfactory` is a package, primarily for printing PDF files to a physical printer.
+
+[![License?][shield-license]](LICENSE)
+
+**Example**
+
+    import pathlib
+    import printfactory
+
+    printer = printfactory.Printer(
+        printer_name='My Printers Name',
+    )
+
+    print_file = pathlib.Path('pth/to/my.pdf')
+    printer.send(print_file)
 
 ## Table of Contents
 

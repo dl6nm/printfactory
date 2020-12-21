@@ -13,7 +13,7 @@
         printer_name='My Printers Name',
     )
 
-    print_file = pathlib.Path('pth/to/my.pdf')
+    print_file = pathlib.Path('path/to/my.pdf')
     printer.send(print_file)
 
 ## Table of Contents

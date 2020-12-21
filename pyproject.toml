@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "printfactory"
-version = "0.1.0"
+version = "0.1.0-alpha.0"
 description = "Print PDF files to a local installed printer"
 authors = ["dl6nm <mail@dl6nm.de>"]
 repository = "https://github.com/dl6nm/printfactory"

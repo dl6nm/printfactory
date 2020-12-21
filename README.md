@@ -1,12 +1,8 @@
+[![License?][shield-license]](LICENSE)
+
 # printfactory
 
 `printfactory` is a package, primarily for printing PDF files to a physical printer.
-
-[comment]: <> ([![Badges @ Shields IO][shield-badges]][shields])
-[comment]: <> ([![Version?][shield-version]][shields])
-[comment]: <> ([![Build passed?][shield-build]][shields])
-[comment]: <> ([![Language?][shield-markdown]][shields])
-[![License?][shield-license]](LICENSE)
 
 ## Table of Contents
 

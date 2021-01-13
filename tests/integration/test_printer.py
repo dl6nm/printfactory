@@ -2,6 +2,8 @@ import pytest
 
 import printfactory
 
+from printfactory.models.print_tools import AdobeAcrobat, AdobeReader
+
 
 def test_list_printers():
     printers = printfactory.list_printers()
@@ -9,25 +11,28 @@ def test_list_printers():
 
 
 @pytest.mark.parametrize(
-    argnames=['name', 'driver', 'port_name', 'print_tool', 'filename'],
+    argnames=['printer_name', 'printer_driver', 'printer_port_name', 'print_tool', 'filename'],
     argvalues=[
-        ['BlackHole', None, None, None, 'my.pdf'],
-        ['BlackHole', 'Optional print driver', '1234', None, 'my.pdf'],
+        ['BlackHole', None, None, AdobeAcrobat, 'my.pdf'],
+        ['BlackHole', None, None, AdobeReader, 'my.pdf'],
+        ['BlackHole', 'Optional print driver', '1234', AdobeAcrobat, 'my.pdf'],
+        ['BlackHole', 'Optional print driver', '1234', AdobeReader, 'my.pdf'],
     ],
 )
-def test_printer(name, driver, port_name, filename, print_tool, shared_datadir):
+def test_printer(printer_name, printer_driver, printer_port_name, filename, print_tool, shared_datadir):
     # @todo: Check if BlackHole printer is installed on Windows, of not install it and remove it after the tests
     # @todo: Add print_tool in tests
     printer = printfactory.Printer(
-        printer_name=name,
-        driver_name=driver,
-        port_name=port_name,
-        # print_tool=print_tool,
+        printer_name=printer_name,
+        driver_name=printer_driver,
+        port_name=printer_port_name,
+        print_tool=print_tool,
     )
 
-    assert printer.name is name
-    assert printer.driver is driver
-    assert printer.port is port_name
+    assert printer.name is printer_name
+    assert printer.driver is printer_driver
+    assert printer.port is printer_port_name
+    assert printer.print_tool is print_tool.name
 
     file = (shared_datadir / filename)
     assert printer.send(file, timeout=10) is None

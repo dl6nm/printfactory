@@ -99,9 +99,3 @@ class Printer:
             proc = subprocess.run(args=args, timeout=timeout)
         except subprocess.TimeoutExpired:
             pass
-
-
-if __name__ == '__main__':
-    printer = Printer('EPSON AL-C2800N')
-    file = pathlib.Path('../tests/integration/data/my.pdf')
-    printer.send(print_file=file)

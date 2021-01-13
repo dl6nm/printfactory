@@ -16,6 +16,8 @@ def test_list_printers():
     ],
 )
 def test_printer(name, driver, port, filename, print_tool, shared_datadir):
+    # @todo: Check if BlackHole printer is installed on Windows, of not install it and remove it after the tests
+    # @todo: Add print_tool in tests
     printer = printfactory.Printer(
         printer_name=name,
         driver_name=driver,
@@ -29,3 +31,19 @@ def test_printer(name, driver, port, filename, print_tool, shared_datadir):
 
     file = (shared_datadir / filename)
     assert printer.send(file, timeout=10) is None
+
+
+@pytest.mark.parametrize(
+    argnames='filename',
+    argvalues=[
+        'file-does-not-exist.pdf',
+        'file/not/found/my.pdf',
+        'directory/',
+    ],
+)
+def test_printer_missing_file(filename, shared_datadir):
+    """Fail test on sending a missing file to a printer"""
+    printer = printfactory.Printer()
+    file = (shared_datadir / filename)
+    with pytest.raises(FileNotFoundError):
+        printer.send(file, timeout=10)

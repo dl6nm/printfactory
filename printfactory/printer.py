@@ -2,7 +2,7 @@ import pathlib
 import platform
 import subprocess
 
-from printfactory.models.print_tools import AdobeReader
+from printfactory.models.print_tools import PrintTool, AdobeAcrobat, AdobeReader
 
 
 def list_printers() -> list:
@@ -10,6 +10,7 @@ def list_printers() -> list:
 
     :return: List of printers
     """
+    # @todo: Return default system printer name at position 0
     args = None
     shell = False
     pltfrm = platform.system()
@@ -55,7 +56,7 @@ class Printer:
             printer_name: str = None,
             driver_name: str = None,
             port_name: str = None,
-            # print_tool: PrintTool = None,
+            print_tool: PrintTool = AdobeReader,
     ):
         """
         Base printfactory class
@@ -73,7 +74,7 @@ class Printer:
         pltfrm = platform.system()
         # if print_tool is None:
         if pltfrm == 'Windows':
-            self.print_tool = AdobeReader(
+            self.print_tool = print_tool(
                 printer_name=self.name,
                 driver_name=self.driver,
                 port_name=self.port,

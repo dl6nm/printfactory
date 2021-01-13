@@ -1,10 +1,34 @@
 import os
 import pathlib
 
+from enum import Enum
 from pydantic import BaseModel
 
 
-class AdobeReader(BaseModel):
+class PrintTool(BaseModel):
+    """Base class that can be used for printing PDF files via software ('print-tool')"""
+    name: str = 'Generic PrintTool'
+    _programfiles: str = None
+    app_path: pathlib.Path = None
+
+    printer_name: str = None
+    driver_name: str = None
+    port_name: str = None
+
+    def __init__(self, printer_name=None, driver_name=None, port_name=None) -> None:
+        super().__init__(printer=printer_name, driver=driver_name, port=port_name)
+
+        self.printer_name: str = printer_name
+        self.driver_name: str = driver_name
+        self.port_name: str = port_name
+
+        if not self.printer_name and (self.driver_name or self.port_name):
+            raise TypeError('Missing printer')
+        elif not self.driver_name and self.port_name:
+            raise TypeError('Missing driver')
+
+
+class AdobeReader(PrintTool):
     """
     Adobe Reader specific model
 
@@ -30,12 +54,12 @@ class AdobeReader(BaseModel):
     _programfiles: str = os.getenv('PROGRAMFILES(X86)')
     app_path: pathlib.Path = pathlib.Path(f'{_programfiles}/Adobe/Acrobat Reader DC/Reader/AcroRd32.exe')
 
-    printer_name: str = None
-    driver_name: str = None
-    port_name: str = None
+    # printer_name: str = None
+    # driver_name: str = None
+    # port_name: str = None
 
     def __init__(self, printer_name=None, driver_name=None, port_name=None) -> None:
-        super().__init__(printer=printer_name, driver=driver_name, port=port_name)
+        super().__init__(printer_name=printer_name, driver_name=driver_name, port_name=port_name)
 
         self.printer_name: str = printer_name
         self.driver_name: str = driver_name
@@ -84,3 +108,8 @@ class AdobeAcrobat(AdobeReader):
 #              Sets the number of copies to print.
 #     """
 #     pass
+
+
+class PrintTools(Enum):
+    AdobeAcrobat = AdobeAcrobat
+    AdobeReader = AdobeReader

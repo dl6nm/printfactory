@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "printfactory"
-version = "0.1.0-alpha.2"
+version = "0.1.0-alpha.3"
 description = "Print PDF files to a local installed printer using a print tool"
 license = "MIT"
 authors = ["dl6nm <mail@dl6nm.de>"]

@@ -59,31 +59,12 @@ class AdobeReader(BaseModel):
         return list(filter(None, args))
 
 
-# class AcroPrinter(BaseModel):
-#     """
-#     Adobe Acrobat DC and Adobe Reader specific printer class
-#
-#     !!! Windows only !!!
-#
-#     Using Adobe Reader (AcroRd32.exe) or Adobe Acrobat (Acrobat.exe)
-#
-#     AcroRd32.exe [OPTIONS] PATHNAME
-#         /n  Start a separate instance of Acrobat or Adobe Reader, even if one is currently open.
-#         /s  Suppress the splash screen.
-#         /o  Suppress the open file dialog box.
-#         /h  Start Acrobat or Adobe Reader in a minimized window.
-#         /p  Start Adobe Reader and display the Print dialog box.
-#
-#     AcroRd32.exe /t PATH [PRINTERNAME] [DRIVERNAME] [PORTNAME]
-#         Start Adobe Reader and print a file while suppressing the Print dialog box. The PATH must be fully specified.
-#         PRINTERNAME     The name of your printer. If not specified, the systems default printer is used.
-#         DRIVERNAME      Your printer driver’s name, as it appears in your printer’s properties.
-#         PORTNAME        The printer’s port. PORTNAME cannot contain any "/" characters;
-#                         if it does, output is routed to the default port for that printer.
-#     """
-#     pass
-#
-#
+class AdobeAcrobat(AdobeReader):
+    name: str = 'Adobe Acrobat'
+    _programfiles: str = os.getenv('PROGRAMFILES(X86)')
+    app_path: pathlib.Path = pathlib.Path(f'{_programfiles}/Adobe/Acrobat DC/Acrobat/Acrobat.exe')
+
+
 # class FoxitPrinter(BaseModel):
 #     """
 #     Foxit Reader specific printer class

@@ -1,9 +1,17 @@
-from printfactory.models.print_tools import AdobeAcrobat
+from printfactory.models.print_tools import AdobeAcrobat, AdobeReader
 
 import pytest
 
 
-class TestAdobeAcrobat:
+@pytest.mark.parametrize(
+    argnames=['print_tool_class', 'print_tool_name', 'print_tool_executable', 'print_tool_path'],
+    argvalues=[
+        [AdobeAcrobat, 'Adobe Acrobat', 'Acrobat.exe', r'\Adobe\Acrobat DC\Acrobat\Acrobat.exe'],
+        [AdobeReader, 'Adobe Reader', 'AcroRd32.exe', r'\Adobe\Acrobat Reader DC\Reader\AcroRd32.exe']
+    ],
+    ids=['AdobeAcrobat', 'AdobeReader']
+)
+class TestAdobe:
 
     @pytest.mark.parametrize(
         argnames=['printer_name', 'driver_name', 'port_name'],
@@ -16,14 +24,16 @@ class TestAdobeAcrobat:
         ],
         ids=None,
     )
-    def test_init(self, printer_name, driver_name, port_name):
-        printer = AdobeAcrobat(
+    def test_init(self, print_tool_class, print_tool_name, print_tool_executable, print_tool_path,
+                  printer_name, driver_name, port_name):
+        printer = print_tool_class(
             printer_name=printer_name,
             driver_name=driver_name,
             port_name=port_name,
         )
-        assert printer.name == 'Adobe Acrobat'
-        assert r'\Adobe\Acrobat DC\Acrobat\Acrobat.exe' in str(printer.app_path)
+
+        assert printer.name == print_tool_name
+        assert print_tool_path in str(printer.app_path)
 
         assert printer.printer_name is printer_name
         assert printer.driver_name is driver_name
@@ -39,9 +49,10 @@ class TestAdobeAcrobat:
         ],
         ids=None,
     )
-    def test_init_fail(self, printer_name, driver_name, port_name, exception_msg):
+    def test_init_fail(self, print_tool_class, print_tool_name, print_tool_executable, print_tool_path,
+                       printer_name, driver_name, port_name, exception_msg):
         with pytest.raises(TypeError) as execinfo:
-            AdobeAcrobat(
+            print_tool_class(
                 printer_name=printer_name,
                 driver_name=driver_name,
                 port_name=port_name,
@@ -59,8 +70,9 @@ class TestAdobeAcrobat:
         ],
         ids=None,
     )
-    def test_get_args(self, datadir, printer_name, driver_name, port_name, print_file_name, num_args):
-        printer = AdobeAcrobat(
+    def test_get_args(self, print_tool_class, print_tool_name, print_tool_executable, print_tool_path,
+                      datadir, printer_name, driver_name, port_name, print_file_name, num_args):
+        printer = print_tool_class(
             printer_name=printer_name,
             driver_name=driver_name,
             port_name=port_name,
@@ -72,7 +84,7 @@ class TestAdobeAcrobat:
         assert None not in args
         assert len(args) == num_args
 
-        assert 'Acrobat.exe' in str(args[0])
+        assert print_tool_executable in str(args[0])
         assert '/t' in str(args[1])
         assert args[2] == print_file
 

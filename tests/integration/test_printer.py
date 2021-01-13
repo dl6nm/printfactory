@@ -11,8 +11,8 @@ def test_list_printers():
 @pytest.mark.parametrize(
     argnames=['name', 'driver', 'port', 'print_tool', 'filename'],
     argvalues=[
-        ['EPSON AL-C2800N', None, None, None, 'my.pdf'],
-        ['EPSON AL-C2800N', 'Optional print driver', 1234, None, 'my.pdf'],
+        ['BlackHole', None, None, None, 'my.pdf'],
+        ['BlackHole', 'Optional print driver', 1234, None, 'my.pdf'],
     ],
 )
 def test_printer(name, driver, port, filename, print_tool, shared_datadir):

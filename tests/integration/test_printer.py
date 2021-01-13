@@ -9,25 +9,25 @@ def test_list_printers():
 
 
 @pytest.mark.parametrize(
-    argnames=['name', 'driver', 'port', 'print_tool', 'filename'],
+    argnames=['name', 'driver', 'port_name', 'print_tool', 'filename'],
     argvalues=[
         ['BlackHole', None, None, None, 'my.pdf'],
-        ['BlackHole', 'Optional print driver', 1234, None, 'my.pdf'],
+        ['BlackHole', 'Optional print driver', '1234', None, 'my.pdf'],
     ],
 )
-def test_printer(name, driver, port, filename, print_tool, shared_datadir):
+def test_printer(name, driver, port_name, filename, print_tool, shared_datadir):
     # @todo: Check if BlackHole printer is installed on Windows, of not install it and remove it after the tests
     # @todo: Add print_tool in tests
     printer = printfactory.Printer(
         printer_name=name,
         driver_name=driver,
-        port_name=port,
+        port_name=port_name,
         # print_tool=print_tool,
     )
 
     assert printer.name is name
     assert printer.driver is driver
-    assert printer.port is port
+    assert printer.port is port_name
 
     file = (shared_datadir / filename)
     assert printer.send(file, timeout=10) is None

@@ -1,10 +1,11 @@
 # printfactory
 
-`printfactory` is a package, primarily for printing PDF files to a physical printer.
+`printfactory` is a package for printing PDF files to a physical printer 
+using a print tool like [Adobe Reader][AdobeReader] or [Foxit Reader][FoxitReader].
 
 [![License?][shield-license]](LICENSE)
 
-**Example**
+**Example usage**
 
     import pathlib
     import printfactory
@@ -19,42 +20,31 @@
 ## Table of Contents
 
 - [Why?](#why)
+- [Requirements](#requirements)
+- [Installing `printfactory`](#installing-printfactory)
 - [Changelog](#changelog)
 
 ## Why?
 
-The motivation for this project was to have a simple Python interface for printing PDF files to a physical printer.
-Only public available and free software should be used on the client or server using this package. 
+The motivation for this project was to have a simple Python interface
+for printing PDF files to a physical printer using a local installed software _("print-tool")_.
 
+Only publicly and freely available software should be used on the client or server that is using this package.
 
-## printfactory package
+## Requirements
 
-    printfactory
-        .list_printers()        # list/get available printers in system
+- [Python >= 3.8][python]
+- [pip][pip]
 
-        Printer()               # Generic Printer class for printing a file with a PrintTool
-            .send()             # send a file to a printer using a PrintTool
+## Installing `printfactory`
 
-        AcroPrinter(Printer)    # Subclass of Printer() for Adobe Acrobat
-        AcroRdPrinter(Printer)  # Subclass of AcroPrinter() for Adobe Reader
-       [FoxitPrinter(Printer)]  # Subclass of Printer() for Foxit Reader
-       [LPRPrinter(Printer)]    # Subclass of Printer() for LPR printing on Linux like systems
+To install the latest version of `printfactory` use pip as simple as follows.
 
-        PrintTools()            # List/Enum of implemented tools for printing a file
-            .find()             # Find a PrintTool in system
+    pip install printfactory
 
-        PrintTool()             # List/Enum of implemented tools for printing a file
-            Adobe Acrobat
-            Adobe Reader
-            Foxit Reader
-            LPR
+## Contributing
 
-
-    printer = printfactory.Printer('PrinterName')   # return Printer class
-    printer.tool => AdobeReader                     # autodetect path
-    printed = printer.send('PathToPDFDocument')     # return True or False
-
-
+If you'd like to contribute to this project [Poetry][poetry] is recommended.
 
 ## Changelog
 
@@ -62,4 +52,11 @@ All notable changes to this project will be documented in the [CHANGELOG.md](CHA
 
 
 
-[shield-license]:  https://img.shields.io/badge/license-MIT-blue.svg
+[shield-license]: https://img.shields.io/badge/license-MIT-blue.svg
+
+[AdobeReader]: https://get.adobe.com/reader/
+[FoxitReader]: https://www.foxitsoftware.com/pdf-reader/
+
+[python]: https://www.python.org/
+[pip]: https://pypi.org/project/pip/
+[poetry]: https://python-poetry.org/

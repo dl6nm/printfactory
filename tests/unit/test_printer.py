@@ -3,24 +3,24 @@ import pytest
 from printfactory import Printer
 
 
-@pytest.mark.parametrize(
-    argnames=['printer_name', 'printer_driver', 'printer_port'],
-    argvalues=[
-        [None, None, None],
-        ['MyPrinter', None, None],
-        ['MyPrinter', 'MyDriver', None],
-        ['MyPrinter', 'MyDriver', 'Portname_1234'],
-    ],
-)
 class TestPrinter:
     """Test Printer class"""
 
+    @pytest.mark.parametrize(
+        argnames=['printer_name', 'printer_driver', 'printer_port'],
+        argvalues=[
+            [None, None, None],
+            ['MyPrinter', None, None],
+            ['MyPrinter', 'MyDriver', None],
+            ['MyPrinter', 'MyDriver', 'Portname_1234'],
+        ],
+    )
     def test_attributes(self, printer, printer_name, printer_driver, printer_port):
         assert printer.name == printer_name
         assert printer.driver == printer_driver
         assert printer.port == printer_port
 
-    def test_get_list(self, printer, printer_name, printer_driver, printer_port):
+    def test_get_list(self, printer):
         # static method
         printers = Printer.get_list()
         assert len(printer) >= 0

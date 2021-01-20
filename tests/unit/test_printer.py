@@ -23,7 +23,7 @@ class TestPrinter:
     def test_get_list(self):
         # static method
         printers = Printer.get_list()
-        assert len(printer) >= 0
+        assert len(printers) > 0
         assert 'BlackHole' in printers
 
     def test_get_default(self):

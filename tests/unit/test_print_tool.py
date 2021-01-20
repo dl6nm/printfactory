@@ -43,3 +43,12 @@ class TestPrintTool:
 
         num_args = len(args) + len(new_args)
         assert len(pta) == num_args
+
+    @pytest.mark.parametrize(
+        argnames='print_file',
+        argvalues=[
+            ['my.pdf'],
+        ],
+    )
+    def test_print_file(self, print_tool, name, printer, app_path, args, print_file):
+        assert print_tool.print_file(print_file) is True

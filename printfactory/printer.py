@@ -1,8 +1,5 @@
-import pathlib
 import platform
 import subprocess
-
-from typing import List
 
 
 class Printer:
@@ -59,3 +56,14 @@ class Printer:
 
         return printers
 
+    @classmethod
+    def get_default(cls) -> 'Printer':
+        """Get the default printer
+
+        :return: Printer
+        """
+        return cls(
+            printer_name=None,
+            driver_name=None,
+            port_name=None,
+        )

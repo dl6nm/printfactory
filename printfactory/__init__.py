@@ -4,7 +4,9 @@ __version__ = version('printfactory')
 
 
 from .printer import *
+from .print_tool import *
 
 __all__ = [
-    'Printer'
+    'Printer',
+    'PrintTool',
 ]

@@ -29,6 +29,7 @@ class TestPrinter:
     def test_get_default(self):
         default_printer = Printer.get_default()
         assert isinstance(default_printer, Printer)
+        assert default_printer.name not in [None, '']
 
 
 class TestPrinterFail:

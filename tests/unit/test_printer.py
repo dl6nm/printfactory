@@ -20,15 +20,14 @@ class TestPrinter:
         assert printer.driver == printer_driver
         assert printer.port == printer_port
 
-    def test_get_list(self, printer):
+    def test_get_list(self):
         # static method
         printers = Printer.get_list()
         assert len(printer) >= 0
         assert 'BlackHole' in printers
 
-    def test_get_default(self, printer):
+    def test_get_default(self):
         default_printer = Printer.get_default()
-        assert len(default_printer) == 1
         assert isinstance(default_printer, Printer)
 
 

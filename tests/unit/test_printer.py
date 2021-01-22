@@ -16,10 +16,15 @@ class TestPrinter:
         ],
     )
     def test_attributes(self, printer, printer_name, driver_name, port_name, default):
+        assert isinstance(printer.name, (type(None), str))
+        assert isinstance(printer.driver, (type(None), str))
+        assert isinstance(printer.port, (type(None), str))
+        assert isinstance(printer._default, (type(None), bool))
+
         assert printer.name == printer_name
         assert printer.driver == driver_name
         assert printer.port == port_name
-        assert printer.default == default
+        assert printer._default == default
 
     def test_get_list(self):
         # static method

@@ -45,17 +45,21 @@ class TestPrinterFail:
     """Test Printer class - Failing tests"""
 
     @pytest.mark.parametrize(
-        argnames=['printer_name', 'driver_name', 'port_name', 'default', 'exception_msg'],
+        argnames=['printer_name', 'driver_name', 'port_name', 'exception_msg'],
         argvalues=[
-            [None, 'MyDriverName', None, True, 'Missing printer'],
-            ['MyPrinter', None, 1234, True, 'Missing driver'],
-            [None, 'MyDriverName', 'MyPrinterPort', True, 'Missing printer'],
-            [None, None, 'MyPrinterPort', True, 'Missing printer'],
+            [None, 'MyDriverName', None, 'Missing printer'],
+            ['MyPrinter', None, 1234, 'Missing driver'],
+            [None, 'MyDriverName', 'MyPrinterPort', 'Missing printer'],
+            [None, None, 'MyPrinterPort', 'Missing printer'],
         ],
         ids=None,
     )
-    def test_fail_missing_attributes(self, printer, printer_name, driver_name, port_name, default, exception_msg):
+    def test_fail_missing_attributes(self, printer_name, driver_name, port_name, exception_msg):
         with pytest.raises(TypeError) as execinfo:
-            printer
+            Printer(
+                printer_name=printer_name,
+                driver_name=driver_name,
+                port_name=port_name,
+            )
         assert execinfo.value.args[0] == exception_msg
 

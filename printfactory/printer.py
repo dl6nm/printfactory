@@ -41,9 +41,11 @@ class Printer:
         if pltfrm == 'Windows':
             # args = ['wmic', 'printer', 'get', 'Name']
             args = ['wmic', 'printer', 'get', 'Default,DriverName,Name,PortName']
-        elif pltfrm == 'Darwin':
-            args = ["lpstat -p | awk '{print $2}'"]
-            shell = True
+        # elif pltfrm == 'Darwin':
+        #     args = ["lpstat -p | awk '{print $2}'"]
+        #     shell = True
+        else:
+            raise NotImplementedError
 
         proc = subprocess.run(
             args=args,

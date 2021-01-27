@@ -12,6 +12,7 @@ class Printer:
             printer_name: str = None,
             driver_name: str = None,
             port_name: str = None,
+            _default: bool = False
     ):
         """
         Initialize Printer class
@@ -19,11 +20,12 @@ class Printer:
         :param printer_name: Name of the printer, use systems default printer if not given
         :param driver_name: Driver name that should be used
         :param port_name: Port of the printer
+        :param _default: True if printer is the systems default printer, else False
         """
         self.name: str = printer_name
         self.driver: str = driver_name
         self.port: str = port_name
-        self._default: bool
+        self._default: bool = _default
 
     @staticmethod
     def get_list() -> List['Printer']:

@@ -45,15 +45,12 @@ class TestPrintTool:
         argnames='new_args',
         argvalues=[
             ['--verbose', 1, 2],
-            ['-v', '--debug'],
         ],
     )
     def test_set_args(self, print_tool, name, printer, app_path, args, exists, new_args):
         print_tool_args = print_tool.set_args(new_args)
         assert isinstance(print_tool_args, list)
-
-        num_args = len(args) + len(new_args)
-        assert len(print_tool_args) == num_args
+        assert len(print_tool_args) == len(new_args)
 
     @pytest.mark.parametrize(
         argnames='print_file',

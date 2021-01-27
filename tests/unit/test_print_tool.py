@@ -8,13 +8,13 @@ from printfactory import Printer, PrintTool
 @pytest.mark.parametrize(
     argnames=['name', 'printer', 'app_path', 'args', 'exists'],
     argvalues=[
-        ['Generic PrintTool', Printer(), pathlib.Path(), [], False],
+        ['Generic PrintTool', Printer(), pathlib.Path(), [], True],
         [
             'Adobe Reader',
             Printer('MyPrinterName', 'MyDriverName', 'MyPortName'),
-            pathlib.Path('AcroRd32.exe'),
+            pathlib.Path(r'\path\to\AcroRd32.exe'),
             ['/t', 'AcroRd32.exe', 'MyPrinterName', 'MyDriverName', 'MyPortName'],
-            True,
+            False,
         ],
     ],
 )

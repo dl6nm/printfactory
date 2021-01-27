@@ -9,13 +9,14 @@ class TestPrinter:
     @pytest.mark.parametrize(
         argnames=['printer_name', 'driver_name', 'port_name', 'default'],
         argvalues=[
-            [None, None, None, True],
+            [None, None, None, False],
             ['MyPrinter', None, None, True],
-            ['MyPrinter', 'MyDriver', None, True],
+            ['MyPrinter', 'MyDriver', None, False],
             ['MyPrinter', 'MyDriver', 'Portname_1234', True],
         ],
     )
     def test_attributes(self, printer, printer_name, driver_name, port_name, default):
+        printer._default = default  # set printers _default bool value for testing
         assert isinstance(printer.name, (type(None), str))
         assert isinstance(printer.driver, (type(None), str))
         assert isinstance(printer.port, (type(None), str))

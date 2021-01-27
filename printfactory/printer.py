@@ -28,6 +28,11 @@ class Printer:
         self.port: str = port_name
         self._default: bool = _default
 
+        if not self.name and (self.driver or self.port):
+            raise TypeError('Missing printer')
+        elif not self.driver and self.port:
+            raise TypeError('Missing driver')
+
     @staticmethod
     def get_list() -> List['Printer']:
         """Get a list of installed printers

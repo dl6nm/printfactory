@@ -4,11 +4,12 @@ from printfactory import Printer, PrintTool
 
 
 @pytest.fixture()
-def printer(printer_name, driver_name, port_name):
+def printer(printer_name, driver_name, port_name, is_default):
     return Printer(
         printer_name=printer_name,
         driver_name=driver_name,
         port_name=port_name,
+        _default=is_default,
     )
 
 

@@ -4,7 +4,7 @@ from printfactory import Printer
 
 
 @pytest.mark.parametrize(
-    argnames=['printer_name', 'driver_name', 'port_name', 'default'],
+    argnames=['printer_name', 'driver_name', 'port_name', 'is_default'],
     argvalues=[
         [None, None, None, False],
         ['MyPrinter', None, None, True],
@@ -15,8 +15,7 @@ from printfactory import Printer
 class TestPrinter:
     """Test Printer class"""
 
-    def test_attributes(self, printer, printer_name, driver_name, port_name, default):
-        printer._default = default  # set printers _default bool value for testing
+    def test_attributes(self, printer, printer_name, driver_name, port_name, is_default):
         assert isinstance(printer.name, (type(None), str))
         assert isinstance(printer.driver, (type(None), str))
         assert isinstance(printer.port, (type(None), str))
@@ -25,10 +24,10 @@ class TestPrinter:
         assert printer.name == printer_name
         assert printer.driver == driver_name
         assert printer.port == port_name
-        assert printer._default == default
+        assert printer._default == is_default
 
-    def test_is_default(self, printer, printer_name, driver_name, port_name, default):
-        assert printer.is_default() == default
+    def test_is_default(self, printer, printer_name, driver_name, port_name, is_default):
+        assert printer.is_default() == is_default
 
 
 class TestPrinterFail:
@@ -55,7 +54,7 @@ class TestPrinterFail:
 
 class TestPrinterStaticMethods:
     """Test Printer class' static methods"""
-    
+
     def test_get_list(self):
         # static method
         printers = Printer.get_list()

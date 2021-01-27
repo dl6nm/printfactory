@@ -1,4 +1,5 @@
 import platform
+import re
 import subprocess
 
 from typing import List
@@ -54,15 +55,20 @@ class Printer:
 
         lines = proc.stdout.splitlines()
         printers = []
-
-        print('\n')
-        print('#'*100)
         for line in lines:
             line = line.strip()
-            if line not in ['', 'Name', '\n']:
-                print(line)
-                printers.append(line)
-        print('#'*100)
+            if line not in [None, '', '\n'] and not line.startswith('Default'):
+                # values in a line as defined above in the args (alphabetical order):
+                # Default, DriverName, Name, PortName
+                # Windows only implementation
+                values = re.split(r'\s{2,}', line)
+                printer = Printer(
+                    printer_name=values[2],
+                    driver_name=values[1],
+                    port_name=values[3],
+                    _default=bool(values[0]),
+                )
+                printers.append(printer)
 
         return printers
 

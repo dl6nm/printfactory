@@ -15,12 +15,13 @@ from printfactory import Printer
 class TestPrinter:
     """Test Printer class"""
 
-    def test_attributes(self, printer, printer_name, driver_name, port_name, is_default):
+    def test_initialization(self, printer, printer_name, driver_name, port_name, is_default):
         assert isinstance(printer.name, (type(None), str))
         assert isinstance(printer.driver, (type(None), str))
         assert isinstance(printer.port, (type(None), str))
         assert isinstance(printer._default, (type(None), bool))
 
+    def test_attributes(self, printer, printer_name, driver_name, port_name, is_default):
         assert printer.name == printer_name
         assert printer.driver == driver_name
         assert printer.port == port_name

@@ -35,8 +35,6 @@ class TestPrinter:
         for printer in printers:
             assert isinstance(printer, Printer)
 
-        # assert 'BlackHole' in printers
-
     def test_get_default(self):
         default_printer = Printer.get_default()
         assert isinstance(default_printer, Printer)

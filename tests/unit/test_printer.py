@@ -27,6 +27,8 @@ class TestPrinter:
         assert printer.port == port_name
         assert printer._default == default
 
+    def test_is_default(self, printer, printer_name, driver_name, port_name, default):
+        assert printer.is_default() == default
 
 
 class TestPrinterFail:

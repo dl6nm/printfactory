@@ -80,36 +80,7 @@ class Printer:
 
         :return: Printer
         """
-        args = None
-        shell = False
-        pltfrm = platform.system()
-        if pltfrm == 'Windows':
-            args = ['wmic', 'printer', 'get', 'Default', 'DriverName', 'Name', 'PortName']
-        elif pltfrm == 'Darwin':
-            args = ["lpstat -p | awk '{print $2}'"]
-            shell = True
-
-        proc = subprocess.run(
-            args=args,
-            capture_output=True,
-            encoding='utf-8',
-            text=True,
-            shell=shell,
-        )
-
-        lines = proc.stdout.splitlines()
-        printers = []
-
-        for line in lines:
-            line = line.strip()
-            if line not in ['', 'Name', '\n']:
-                printers.append(line)
-
-
-
-
-        return cls(
-            printer_name=None,
-            driver_name=None,
-            port_name=None,
-        )
+        printers = Printer.get_list()
+        for printer in printers:
+            if printer._default:
+                return printer

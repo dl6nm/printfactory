@@ -33,13 +33,13 @@ class TestPrintTool:
         assert print_tool.app_path == app_path
         assert print_tool.args == args
 
+    def test_exists(self, print_tool, name, printer, app_path, args, exists):
+        assert print_tool.exists() == exists
+
     def test_get_args(self, print_tool, name, printer, app_path, args, exists):
         print_tool_args = print_tool.get_args()
         assert isinstance(print_tool_args, list)
         assert print_tool_args == args
-
-    def test_exists(self, print_tool, name, printer, app_path, args, exists):
-        assert print_tool.exists() == exists
 
     @pytest.mark.parametrize(
         argnames='new_args',

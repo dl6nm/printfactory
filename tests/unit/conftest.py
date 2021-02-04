@@ -1,5 +1,7 @@
 import pytest
 
+from typing import List
+
 from printfactory import Printer, PrintTool
 
 
@@ -14,10 +16,10 @@ def printer(printer_name, driver_name, port_name, is_default):
 
 
 @pytest.fixture()
-def print_tool(name, printer, app_path, args):
+def print_tool(name, printer, app_path, args: List[str]):
     return PrintTool(
         name=name,
         printer=printer,
         app_path=app_path,
-        args=args,
+        args=args.copy(),
     )

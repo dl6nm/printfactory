@@ -53,6 +53,21 @@ class TestPrintTool:
         assert len(print_tool_args) == len(new_args)
 
     @pytest.mark.parametrize(
+        argnames='add_args',
+        argvalues=[
+            ['--printer', 'MyPrinter', '--port', '1234'],
+        ],
+    )
+    def test_add_args(self, print_tool, name, printer, app_path, args, exists, add_args):
+        total_args = len(args) + len(add_args)
+        print_tool_args = print_tool.add_args(add_args)
+        assert isinstance(print_tool_args, list)
+        assert len(print_tool_args) == total_args
+        assert len(print_tool.get_args()) == total_args
+
+        print('#'*100)
+
+    @pytest.mark.parametrize(
         argnames='print_file',
         argvalues=[
             ['my.pdf'],

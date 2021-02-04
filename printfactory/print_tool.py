@@ -16,8 +16,13 @@ class PrintTool:
         self.app_path = app_path
         self.args = args
 
+        if not self.exists():
+            raise FileNotFoundError(f'PrintTool "{app_path}" does not exist')
+
     def exists(self) -> bool:
-        return self.app_path.exists()
+        if not self.app_path.is_dir():
+            return self.app_path.exists()
+        return False
 
     def get_args(self) -> List[str]:
         return self.args
@@ -30,35 +35,32 @@ class PrintTool:
         self.args.extend(args)
         return self.args
 
-    def print_file(self, file: pathlib.Path) -> bool:
-        args = None
-        shell = False
+    def run(self) -> subprocess.CompletedProcess:
         pltfrm = platform.system()
         if pltfrm == 'Windows':
-            args = [self.args, file]
-        # elif pltfrm == 'Darwin':
-        #     args = []
-        #     shell = True
+            shell = False
+        elif pltfrm == 'Darwin':
+            shell = True
         else:
             raise NotImplementedError
 
-        print('\n')
-        print('#'*100)
-        print(f'args = {args}')
-        print('#'*100)
+        args = [self.app_path.absolute()]
+        args.extend(self.args)
 
         proc = subprocess.run(
-            args=self.args,
+            args=args,
             capture_output=True,
             encoding='utf-8',
             text=True,
             shell=shell,
         )
+        return proc
 
-        print(proc)
-        print(proc.returncode)
-        print('#'*100)
-
-        if proc.returncode == 0:
-            return True
-        return False
+    # def print_file(self, file: pathlib.Path, args_placeholder: str = None) -> bool:
+    #     proc = self.run()
+    #     print(proc)
+    #     print(proc.returncode)
+    #
+    #     if proc.returncode == 0:
+    #         return True
+    #     return False

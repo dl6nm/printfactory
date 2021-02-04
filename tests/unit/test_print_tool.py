@@ -1,4 +1,5 @@
 import pathlib
+import subprocess
 
 import pytest
 
@@ -8,13 +9,12 @@ from printfactory import Printer, PrintTool
 @pytest.mark.parametrize(
     argnames=['name', 'printer', 'app_path', 'args', 'exists'],
     argvalues=[
-        ['Generic PrintTool', Printer(), pathlib.Path(), [], True],
         [
             'Adobe Reader',
             Printer('MyPrinterName', 'MyDriverName', 'MyPortName'),
-            pathlib.Path(r'\path\to\AcroRd32.exe'),
-            ['/t', 'AcroRd32.exe', 'MyPrinterName', 'MyDriverName', 'MyPortName'],
-            False,
+            pathlib.Path(r'C:\Program Files (x86)\Adobe\Acrobat Reader DC\Reader\AcroRd32.exe'),
+            ['/t', 'MyPrintFile.pdf', 'MyPrinterName', 'MyDriverName', 'MyPortName'],
+            True,
         ],
     ],
 )
@@ -65,13 +65,27 @@ class TestPrintTool:
         assert len(print_tool_args) == total_args
         assert len(print_tool.get_args()) == total_args
 
-        print('#'*100)
+    # @pytest.mark.parametrize(
+    #     argnames='print_file',
+    #     argvalues=[
+    #         ['my.pdf'],
+    #     ],
+    # )
+    # def test_print_file(self, print_tool, name, printer, app_path, args, exists, print_file):
+    #     print_tool.set_args(args)
+    #     assert print_tool.print_file(print_file) is True
 
-    @pytest.mark.parametrize(
-        argnames='print_file',
-        argvalues=[
-            ['my.pdf'],
-        ],
-    )
-    def test_print_file(self, print_tool, name, printer, app_path, args, exists, print_file):
-        assert print_tool.print_file(print_file) is True
+
+@pytest.mark.parametrize(
+    argnames=['name', 'printer', 'app_path', 'args'],
+    argvalues=[
+        ['Generic PrintTool', Printer(), pathlib.Path(), []],
+    ],
+)
+class TestPrintToolFail:
+    """PrintTool test cases - Failing tests"""
+
+    def test_initialization_fail(self, name, printer, app_path, args):
+        with pytest.raises(FileNotFoundError) as execinfo:
+            PrintTool(name, printer, app_path, args)
+        assert execinfo.value.args[0] == 'PrintTool "." does not exist'

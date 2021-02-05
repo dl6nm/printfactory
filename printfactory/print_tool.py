@@ -35,7 +35,7 @@ class PrintTool:
         self.args.extend(args)
         return self.args
 
-    def run(self) -> subprocess.CompletedProcess:
+    def run(self, timeout=30) -> subprocess.CompletedProcess:
         pltfrm = platform.system()
         if pltfrm == 'Windows':
             shell = False
@@ -53,6 +53,7 @@ class PrintTool:
             encoding='utf-8',
             text=True,
             shell=shell,
+            timeout=timeout,
         )
         return proc
 

@@ -33,6 +33,9 @@ class Printer:
         elif not self.driver and self.port:
             raise TypeError('Missing driver')
 
+    def __repr__(self):
+        return f'{self.__class__.__name__}(printer_name={self.name}, driver_name={self.driver}, port_name={self.port}, default={self._default})'
+
     def is_default(self):
         return self._default
 

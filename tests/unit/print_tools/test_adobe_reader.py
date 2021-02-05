@@ -57,3 +57,14 @@ class TestAdobeReader:
 
         assert reader._set_args(print_file=print_file) == args_expected
         assert reader.get_args() == args_expected
+
+    @pytest.mark.parametrize(
+        argnames=['print_file_name', 'success'],
+        argvalues=[
+            ['my.pdf', True],
+            ['no-file.pdf', False],
+        ],
+    )
+    def test_print_file(self, printer, reader, print_file_name, success, shared_datadir):
+        print_file = shared_datadir / print_file_name
+        assert reader.print_file(file=print_file) is success

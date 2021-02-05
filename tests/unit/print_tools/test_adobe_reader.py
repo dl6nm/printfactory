@@ -43,19 +43,6 @@ class TestAdobeReader:
         argvalues=[
             [
                 'my.pdf',
-                ['/t', 'my.pdf', 'MyPrinterName', 'MyDriverName', 'MyPortName'],
-            ],
-        ],
-    )
-    def test__set_args(self, printer, reader, print_file_name, args_expected, shared_datadir):
-        assert reader._set_args(print_file=print_file_name) == args_expected
-        assert reader.get_args() == args_expected
-
-    @pytest.mark.parametrize(
-        argnames=['print_file_name', 'args_expected'],
-        argvalues=[
-            [
-                'my.pdf',
                 ['/t', '{print_file}', 'MyPrinterName', 'MyDriverName', 'MyPortName'],
             ],
         ],

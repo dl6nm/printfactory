@@ -1,0 +1,63 @@
+import pathlib
+import platform
+
+from typing import List
+
+from .. import Printer, PrintTool
+
+
+class AdobeReader(PrintTool):
+    """
+    Adobe Reader specific model
+
+    !!! Windows only !!!
+
+    Using Adobe Reader (AcroRd32.exe) or Adobe Acrobat (Acrobat.exe)
+
+    AcroRd32.exe [OPTIONS] PATHNAME
+        /n  Start a separate instance of Acrobat or Adobe Reader, even if one is currently open.
+        /s  Suppress the splash screen.
+        /o  Suppress the open file dialog box.
+        /h  Start Acrobat or Adobe Reader in a minimized window.
+        /p  Start Adobe Reader and display the Print dialog box.
+
+    AcroRd32.exe /t PATH [PRINTERNAME] [DRIVERNAME] [PORTNAME]
+        Start Adobe Reader and print a file while suppressing the Print dialog box. The PATH must be fully specified.
+        PRINTERNAME     The name of your printer. If not specified, the systems default printer is used.
+        DRIVERNAME      Your printer driver’s name, as it appears in your printer’s properties.
+        PORTNAME        The printer’s port. PORTNAME cannot contain any "/" characters;
+                        if it does, output is routed to the default port for that printer.
+    """
+    def __init__(
+            self,
+            printer: Printer,
+            app_path: pathlib.Path = pathlib.Path(r'C:\Program Files (x86)\Adobe\Acrobat Reader DC\Reader\AcroRd32.exe')
+    ):
+        pltfrm = platform.system()
+        if pltfrm != 'Windows':
+            raise NotImplementedError
+        super(AdobeReader, self).__init__(
+            name='Adobe Reader',
+            printer=printer,
+            app_path=app_path,
+            args=[],
+        )
+
+    def _set_args(self, print_file: pathlib.Path) -> List[str]:
+        if not print_file.exists():
+            raise FileNotFoundError(f'"{print_file}" does not exist')
+        args = self.set_args(
+            [
+                '/t',
+                print_file,
+                self.printer.name,
+                self.printer.driver,
+                self.printer.port,
+
+            ]
+        )
+        return args
+
+    def print_file(self, file: pathlib.Path):
+        self._set_args(print_file=file)
+        return self.run()

@@ -5,51 +5,68 @@ import pytest
 from printfactory import AdobeReader, Printer, PrintTool
 
 
+@pytest.fixture()
+def reader(printer):
+    return AdobeReader(
+        printer=printer,
+    )
+
+
 @pytest.mark.parametrize(
-    argnames=['name', 'printer', 'app_path', 'args', 'exists'],
+    argnames='printer',
     argvalues=[
-        [
-            'Adobe Reader',
-            Printer('MyPrinterName', 'MyDriverName', 'MyPortName'),
-            pathlib.Path(r'C:\Program Files (x86)\Adobe\Acrobat Reader DC\Reader\AcroRd32.exe'),
-            ['/t', 'MyPrintFile.pdf', 'MyPrinterName', 'MyDriverName', 'MyPortName'],
-            True,
-        ],
+        Printer('MyPrinterName', 'MyDriverName', 'MyPortName'),
     ],
 )
 class TestAdobeReader:
     """Adobe Reader class tests"""
 
-    def test_initialization(self, name, printer, app_path, args, exists):
-        reader = AdobeReader(
-            printer=printer,
-        )
+    @pytest.mark.parametrize(
+        argnames=['name', 'app_path'],
+        argvalues=[
+            [
+                'Adobe Reader',
+                pathlib.Path(r'C:\Program Files (x86)\Adobe\Acrobat Reader DC\Reader\AcroRd32.exe'),
+            ],
+        ],
+    )
+    def test_initialization(self, printer, reader, name, app_path):
         assert isinstance(reader, PrintTool)
+        assert reader.exists() is True
         assert reader.name == name
         assert reader.printer == printer
         assert reader.app_path == app_path
-        assert reader.get_args() == args
-        assert reader.exists() is exists
+        assert reader.args == []
 
-
-@pytest.mark.parametrize(
-    argnames=['name', 'printer', 'app_path', 'args', 'exists'],
-    argvalues=[
-        [
-            'Adobe Reader',
-            Printer('MyPrinterName', 'MyDriverName', 'MyPortName'),
-            pathlib.Path(),
-            ['/t', 'MyPrintFile.pdf', 'MyPrinterName', 'MyDriverName', 'MyPortName'],
-            True,
+    @pytest.mark.parametrize(
+        argnames=['print_file_name', 'args_expected'],
+        argvalues=[
+            [
+                'my.pdf',
+                ['/t', 'my.pdf', 'MyPrinterName', 'MyDriverName', 'MyPortName'],
+            ],
         ],
-    ],
-)
-class TestAdobeReaderFail:
-    """Adobe Reader class - Failing tests"""
+    )
+    def test__set_args(self, printer, reader, print_file_name, args_expected, shared_datadir):
+        assert reader._set_args(print_file=print_file_name) == args_expected
+        assert reader.get_args() == args_expected
 
-    def test_initialization(self, name, printer, app_path, args, exists):
-        with pytest.raises(FileNotFoundError) as execinfo:
-            AdobeReader(
-                printer=printer,
-            )
-        assert execinfo.value.args[0] == 'PrintTool "." does not exist'
+    @pytest.mark.parametrize(
+        argnames=['print_file_name', 'args_expected'],
+        argvalues=[
+            [
+                'my.pdf',
+                ['/t', '{print_file}', 'MyPrinterName', 'MyDriverName', 'MyPortName'],
+            ],
+        ],
+    )
+    def test__set_args(self, printer, reader, print_file_name, args_expected, shared_datadir):
+        print_file = shared_datadir / print_file_name
+
+        # replace {print_file} placeholder with real print_file path
+        for arg in range(len(args_expected)):
+            if args_expected[arg] == '{print_file}':
+                args_expected[arg] = print_file
+
+        assert reader._set_args(print_file=print_file) == args_expected
+        assert reader.get_args() == args_expected

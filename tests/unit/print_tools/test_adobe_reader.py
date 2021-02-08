@@ -15,7 +15,7 @@ def reader(printer):
 @pytest.mark.parametrize(
     argnames='printer',
     argvalues=[
-        Printer('BlackHole', 'MyDriverName', 'MyPortName'),
+        Printer('BlackHole', None, None),
     ],
 )
 class TestAdobeReader:
@@ -43,7 +43,7 @@ class TestAdobeReader:
         argvalues=[
             [
                 'my.pdf',
-                ['/n', '/t', '{print_file}', 'BlackHole', 'MyDriverName', 'MyPortName'],
+                ['/n', '/t', '{print_file}', 'BlackHole'],
             ],
         ],
     )

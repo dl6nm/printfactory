@@ -6,18 +6,23 @@ from typing import List
 
 from . import Printer
 
-PRINTTOOL_TIMEOUT = 60
-
 
 class PrintTool:
     """Generic PrintTool"""
 
-    def __init__(self, printer: Printer, app_path: pathlib.Path, args: List[str] = None, name: str = 'Generic PrintTool',):
+    def __init__(
+            self,
+            printer: Printer,
+            app_path: pathlib.Path,
+            args: List[str] = None,
+            name: str = 'Generic PrintTool',
+            timeout: int = 60,
+    ):
         self.printer = printer
         self.app_path = app_path
         self.args = args
         self.name = name
-        self.timeout = PRINTTOOL_TIMEOUT
+        self.timeout = timeout
 
         if not self.exists():
             raise FileNotFoundError(f'PrintTool "{app_path}" does not exist')

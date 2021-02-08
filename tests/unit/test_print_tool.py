@@ -77,15 +77,15 @@ class TestPrintTool:
 
 
 @pytest.mark.parametrize(
-    argnames=['name', 'printer', 'app_path', 'args'],
+    argnames=['printer', 'app_path', 'args', 'name'],
     argvalues=[
-        ['Generic PrintTool', Printer(), pathlib.Path(), []],
+        [Printer(), pathlib.Path(), [], 'Generic PrintTool'],
     ],
 )
 class TestPrintToolFail:
     """PrintTool test cases - Failing tests"""
 
-    def test_initialization_fail(self, name, printer, app_path, args):
+    def test_initialization_fail(self, printer, app_path, args, name):
         with pytest.raises(FileNotFoundError) as execinfo:
-            PrintTool(name, printer, app_path, args)
+            PrintTool(printer=printer, app_path=app_path, args=args, name=name)
         assert execinfo.value.args[0] == 'PrintTool "." does not exist'

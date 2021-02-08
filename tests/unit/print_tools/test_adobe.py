@@ -41,6 +41,7 @@ class TestAdobe:
         assert print_tool.printer == printer
         assert print_tool.app_path == app_path
         assert print_tool.args is None
+        assert print_tool.timeout == 60
 
     @pytest.mark.parametrize(
         argnames=['print_file_name', 'args_expected'],

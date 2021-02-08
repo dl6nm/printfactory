@@ -36,7 +36,7 @@ class TestAdobeReader:
         assert reader.name == name
         assert reader.printer == printer
         assert reader.app_path == app_path
-        assert reader.args == []
+        assert reader.args is None
 
     @pytest.mark.parametrize(
         argnames=['print_file_name', 'args_expected'],

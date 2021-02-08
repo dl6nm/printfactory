@@ -31,16 +31,17 @@ class AdobeReader(PrintTool):
     def __init__(
             self,
             printer: Printer,
-            app_path: pathlib.Path = pathlib.Path(r'C:\Program Files (x86)\Adobe\Acrobat Reader DC\Reader\AcroRd32.exe')
+            app_path: pathlib.Path = pathlib.Path(r'C:\Program Files (x86)\Adobe\Acrobat Reader DC\Reader\AcroRd32.exe'),
+            **kwargs,
     ):
         pltfrm = platform.system()
         if pltfrm != 'Windows':
             raise NotImplementedError
         super(AdobeReader, self).__init__(
-            name='Adobe Reader',
             printer=printer,
             app_path=app_path,
-            args=[],
+            name='Adobe Reader',
+            **kwargs,
         )
 
     def _set_args(self, print_file: pathlib.Path) -> List[str]:
@@ -71,3 +72,25 @@ class AdobeReader(PrintTool):
         if proc.returncode <= 1:
             return True
         return False
+
+
+class AdobeAcrobat(AdobeReader):
+    """
+    Adobe Acrobat specific model
+
+    !!! Windows only !!!
+
+    Implementation details see :class:`AdobeReader`
+    """
+    def __init__(
+            self,
+            printer: Printer,
+            app_path: pathlib.Path = pathlib.Path(r'C:\Program Files (x86)\Adobe\Acrobat DC\Acrobat\Acrobat.exe'),
+            **kwargs,
+    ):
+        super(AdobeAcrobat, self).__init__(
+            name='Adobe Acrobat',
+            printer=printer,
+            app_path=app_path,
+            **kwargs
+        )

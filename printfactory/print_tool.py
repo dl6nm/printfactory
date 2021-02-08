@@ -27,6 +27,10 @@ class PrintTool:
         if not self.exists():
             raise FileNotFoundError(f'PrintTool "{app_path}" does not exist')
 
+    def __str__(self):
+        return str(f'{self.__class__.__name__}(printer={self.printer}, app_path={self.app_path}, '
+                   f'args={self.args}, name={self.name}, timeout={self.timeout})')
+
     def exists(self) -> bool:
         if not self.app_path.is_dir():
             return self.app_path.exists()

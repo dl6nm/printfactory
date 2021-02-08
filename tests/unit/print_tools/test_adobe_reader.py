@@ -59,12 +59,18 @@ class TestAdobeReader:
         assert reader.get_args() == args_expected
 
     @pytest.mark.parametrize(
-        argnames=['print_file_name', 'success'],
+        argnames=['print_file_name', 'success', 'raises'],
         argvalues=[
-            ['my.pdf', True],
-            ['no-file.pdf', False],
+            ['my.pdf', True, None],
+            ['no-file.pdf', False, FileNotFoundError],
         ],
     )
-    def test_print_file(self, printer, reader, print_file_name, success, shared_datadir):
+    def test_print_file(self, printer, reader, print_file_name, success, raises, shared_datadir):
         print_file = shared_datadir / print_file_name
-        assert reader.print_file(file=print_file) is success
+        if success:
+            printed = reader.print_file(file=print_file)
+            assert printed is success
+        else:
+            with pytest.raises(raises) as execinfo:
+                reader.print_file(file=print_file)
+            assert execinfo.value.args[0].endswith('does not exist')

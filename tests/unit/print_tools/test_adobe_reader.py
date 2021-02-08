@@ -43,7 +43,7 @@ class TestAdobeReader:
         argvalues=[
             [
                 'my.pdf',
-                ['/t', '{print_file}', 'BlackHole', 'MyDriverName', 'MyPortName'],
+                ['/n', '/t', '{print_file}', 'BlackHole', 'MyDriverName', 'MyPortName'],
             ],
         ],
     )

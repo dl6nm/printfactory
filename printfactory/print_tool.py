@@ -6,6 +6,8 @@ from typing import List
 
 from . import Printer
 
+PRINTTOOL_TIMEOUT = 60
+
 
 class PrintTool:
     """Generic PrintTool"""
@@ -15,6 +17,7 @@ class PrintTool:
         self.printer = printer
         self.app_path = app_path
         self.args = args
+        self.timeout = PRINTTOOL_TIMEOUT
 
         if not self.exists():
             raise FileNotFoundError(f'PrintTool "{app_path}" does not exist')
@@ -35,7 +38,7 @@ class PrintTool:
         self.args.extend(args)
         return self.args
 
-    def run(self, timeout=30) -> subprocess.CompletedProcess:
+    def run(self) -> subprocess.CompletedProcess:
         pltfrm = platform.system()
         if pltfrm == 'Windows':
             shell = False
@@ -53,8 +56,9 @@ class PrintTool:
             encoding='utf-8',
             text=True,
             shell=shell,
-            timeout=timeout,
+            timeout=self.timeout,
         )
+
         return proc
 
     # def print_file(self, file: pathlib.Path, args_placeholder: str = None) -> bool:

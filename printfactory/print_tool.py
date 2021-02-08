@@ -12,11 +12,11 @@ PRINTTOOL_TIMEOUT = 60
 class PrintTool:
     """Generic PrintTool"""
 
-    def __init__(self, name: str, printer: Printer, app_path: pathlib.Path, args: List[str]):
-        self.name = name
+    def __init__(self, printer: Printer, app_path: pathlib.Path, args: List[str] = None, name: str = 'Generic PrintTool',):
         self.printer = printer
         self.app_path = app_path
         self.args = args
+        self.name = name
         self.timeout = PRINTTOOL_TIMEOUT
 
         if not self.exists():
@@ -60,12 +60,3 @@ class PrintTool:
         )
 
         return proc
-
-    # def print_file(self, file: pathlib.Path, args_placeholder: str = None) -> bool:
-    #     proc = self.run()
-    #     print(proc)
-    #     print(proc.returncode)
-    #
-    #     if proc.returncode == 0:
-    #         return True
-    #     return False

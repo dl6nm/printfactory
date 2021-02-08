@@ -40,9 +40,9 @@ class AdobeReader(PrintTool):
         super(AdobeReader, self).__init__(
             printer=printer,
             app_path=app_path,
-            name='Adobe Reader',
             **kwargs,
         )
+        self.name = kwargs.get('name', 'Adobe Reader')
 
     def _set_args(self, print_file: pathlib.Path) -> List[str]:
         if not print_file.exists():
@@ -89,8 +89,8 @@ class AdobeAcrobat(AdobeReader):
             **kwargs,
     ):
         super(AdobeAcrobat, self).__init__(
-            name='Adobe Acrobat',
             printer=printer,
             app_path=app_path,
             **kwargs
         )
+        self.name = kwargs.get('name', 'Adobe Acrobat')

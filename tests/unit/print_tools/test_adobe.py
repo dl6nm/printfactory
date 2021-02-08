@@ -31,7 +31,9 @@ from printfactory import AdobeReader, Printer, PrintTool
 class TestAdobe:
     """AdobeReader and AdobeAcrobat class tests"""
 
-    def test_initialization(self, printer, print_tool, print_tool_name, name, app_path, args):
+    def test_initialization(
+            self, printer, print_tool, print_tool_name, name, app_path, args
+    ):
         assert isinstance(print_tool, PrintTool)
         assert isinstance(print_tool, AdobeReader)
         assert print_tool.exists() is True
@@ -49,8 +51,11 @@ class TestAdobe:
             ],
         ],
     )
-    def test__set_args(self, printer, print_tool, name, print_file_name, args_expected, shared_datadir):
-        print_file = shared_datadir / print_file_name
+    def test__set_args(
+            self, printer, print_tool, print_tool_name, name, app_path, args,
+            print_file_name, args_expected, original_datadir
+    ):
+        print_file = original_datadir / print_file_name
 
         # replace {print_file} placeholder with real print_file path
         for arg in range(len(args_expected)):
@@ -61,17 +66,21 @@ class TestAdobe:
         assert print_tool.get_args() == args_expected
 
     @pytest.mark.parametrize(
-        argnames=['print_file_name', 'success', 'raises'],
+        argnames=['print_file_name', 'raises'],
         argvalues=[
-            ['my.pdf', True, None],
-            ['no-file.pdf', False, FileNotFoundError],
+            ['my.pdf', None],
+            ['no-file.pdf', FileNotFoundError],
         ],
     )
-    def test_print_file(self, printer, print_tool, name, print_file_name, success, raises, shared_datadir):
-        print_file = shared_datadir / print_file_name
-        if success:
+    def test_print_file(
+            self, printer, print_tool, print_tool_name, name, app_path, args,
+            print_file_name, raises, original_datadir
+    ):
+        print_file = original_datadir / print_file_name
+
+        if not raises:
             printed = print_tool.print_file(file=print_file)
-            assert printed is success
+            assert printed
         else:
             with pytest.raises(raises) as execinfo:
                 print_tool.print_file(file=print_file)

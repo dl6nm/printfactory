@@ -46,18 +46,28 @@ class AdobeReader(PrintTool):
     def _set_args(self, print_file: pathlib.Path) -> List[str]:
         if not print_file.exists():
             raise FileNotFoundError(f'"{print_file}" does not exist')
-        args = self.set_args(
-            [
-                '/t',
-                print_file,
-                self.printer.name,
-                self.printer.driver,
-                self.printer.port,
 
-            ]
+        reader_args = [
+            '/n',  # Start a separate instance of Acrobat or Adobe Reader, even if one is currently open
+            '/t',
+            print_file
+        ]
+
+        if self.printer.name:
+            reader_args.append(self.printer.name)
+            if self.printer.driver:
+                reader_args.append(self.printer.driver)
+                if self.printer.port:
+                    reader_args.append(self.printer.driver)
+
+        args = self.set_args(
+            reader_args
         )
         return args
 
-    def print_file(self, file: pathlib.Path):
+    def print_file(self, file: pathlib.Path) -> bool:
         self._set_args(print_file=file)
-        return self.run()
+        proc = self.run()
+        if proc.returncode <= 1:
+            return True
+        return False

@@ -65,6 +65,12 @@ class TestPrintTool:
         assert len(print_tool_args) == total_args
         assert len(print_tool.get_args()) == total_args
 
+    def test_string_representation(self, print_tool, print_tool_name, name, printer, app_path, args, exists):
+        expected_str = f'{print_tool.__class__.__name__}(printer={print_tool.printer}, ' \
+                       f'app_path="{print_tool.app_path}", args={print_tool.args}, ' \
+                       f'name="{print_tool.name}", timeout={print_tool.timeout})'
+        assert str(print_tool) == expected_str
+
 
 @pytest.mark.parametrize(
     argnames=['printer', 'app_path', 'args', 'name'],

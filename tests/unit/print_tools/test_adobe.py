@@ -11,15 +11,15 @@ from printfactory import AdobeReader, Printer, PrintTool
         [
             'AdobeReader',
             'Adobe Reader',
-            Printer('BlackHole', None, None),
+            Printer(),
             pathlib.Path(r'C:\Program Files (x86)\Adobe\Acrobat Reader DC\Reader\AcroRd32.exe'),
             None,
-            ['/n', '/t', '{print_file}', 'BlackHole'],
+            ['/n', '/t', '{print_file}'],
         ],
         [
             'AdobeAcrobat',
             'Adobe Acrobat',
-            Printer('BlackHole', None, None),
+            Printer(),
             pathlib.Path(r'C:\Program Files (x86)\Adobe\Acrobat DC\Acrobat\Acrobat.exe'),
             None,
             ['/n', '/t', '{print_file}'],
@@ -45,27 +45,50 @@ class TestAdobe:
         assert print_tool.args is None
         assert print_tool.timeout == 60
 
+
+
+
+
+
     @pytest.mark.parametrize(
-        argnames=['print_file_name'],
+        argnames=['print_file_name', 'printer_variation', 'args_expected_printer'],
         argvalues=[
             [
                 'my.pdf',
+                Printer('BlackHole', None, None),
+                ['BlackHole'],
+            ],
+            [
+                'my.pdf',
+                Printer('BlackHole', 'Generic / Text Only', None),
+                ['BlackHole', 'Generic / Text Only']
+            ],
+            [
+                'my.pdf',
+                Printer('BlackHole', 'Generic / Text Only', 'BlackHole'),
+                ['BlackHole', 'Generic / Text Only', 'BlackHole']
             ],
         ],
     )
     def test__set_args(
             self, printer, print_tool, print_tool_name, name, app_path, args, args_expected,
-            print_file_name, original_datadir
+            print_file_name, printer_variation, args_expected_printer, original_datadir
     ):
         print_file = original_datadir / print_file_name
 
-        # replace {print_file} placeholder with real print_file path
-        for arg in range(len(args_expected)):
-            if args_expected[arg] == '{print_file}':
-                args_expected[arg] = print_file
+        _args_expected = args_expected
 
-        assert print_tool._set_args(print_file=print_file) == args_expected
-        assert print_tool.get_args() == args_expected
+        for arg in range(len(_args_expected)):
+            if _args_expected[arg] == '{print_file}':
+                _args_expected[arg] = print_file
+
+        # Only AdobeReader has currently support for Printer attributes
+        if type(print_tool) == AdobeReader:
+            _args_expected.extend(args_expected_printer)
+            print_tool.printer = printer_variation
+
+        assert print_tool._set_args(print_file=print_file) == _args_expected
+        assert print_tool.get_args() == _args_expected
 
     @pytest.mark.parametrize(
         argnames=['print_file_name', 'raises'],

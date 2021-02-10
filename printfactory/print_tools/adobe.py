@@ -55,7 +55,7 @@ class AdobeReader(PrintTool):
             if self.printer.driver:
                 reader_args.append(self.printer.driver)
                 if self.printer.port:
-                    reader_args.append(self.printer.driver)
+                    reader_args.append(self.printer.port)
 
         args = self.set_args(
             reader_args

@@ -1,101 +1,96 @@
-import pathlib
 import platform
+import re
 import subprocess
 
-from printfactory.models.print_tools import AdobeReader
-
-
-def list_printers() -> list:
-    """Get a list of installed printers
-
-    :return: List of printers
-    """
-    args = None
-    shell = False
-    pltfrm = platform.system()
-    if pltfrm == 'Windows':
-        args = ['wmic', 'printer', 'get', 'name']
-    elif pltfrm == 'Darwin':
-        args = ["lpstat -p | awk '{print $2}'"]
-        shell = True
-
-    proc = subprocess.run(
-        args=args,
-        capture_output=True,
-        encoding='utf-8',
-        text=True,
-        shell=shell,
-    )
-
-    lines = proc.stdout.splitlines()
-    printers = []
-
-    for line in lines:
-        line = line.strip()
-        if line not in ['', 'Name', '\n']:
-            printers.append(line)
-
-    return printers
+from typing import List
 
 
 class Printer:
-    """
-    Main printer class
-
-        - initialize Printer class
-        - set printer options
-        - auto-check
-            - available pdf reader (Acrobat, Adobe Reader, Foxit Reader, ...)
-            - available printers (get list)
-        - print document
-    """
+    """Main printer class"""
 
     def __init__(
             self,
             printer_name: str = None,
             driver_name: str = None,
             port_name: str = None,
-            # print_tool: PrintTool = None,
+            _default: bool = False
     ):
         """
-        Base printfactory class
+        Initialize Printer class
 
         :param printer_name: Name of the printer, use systems default printer if not given
         :param driver_name: Driver name that should be used
         :param port_name: Port of the printer
-        :param print_tool: Platform dependent tool, used for printing a file
+        :param _default: True if printer is the systems default printer, else False
         """
         self.name: str = printer_name
         self.driver: str = driver_name
         self.port: str = port_name
-        # self.print_tool = print_tool
+        self._default: bool = _default
 
+        if not self.name and (self.driver or self.port):
+            raise TypeError('Missing printer')
+        elif not self.driver and self.port:
+            raise TypeError('Missing driver')
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}(printer_name="{self.name}", driver_name="{self.driver}", port_name="{self.port}", default="{self._default}")'
+
+    def is_default(self):
+        return self._default
+
+    @staticmethod
+    def get_list() -> List['Printer']:
+        """Get a list of installed printers
+
+        :return: List of printers
+        """
+        # @todo: Return default system printer name at position 0
+        args = None
+        shell = False
         pltfrm = platform.system()
-        # if print_tool is None:
         if pltfrm == 'Windows':
-            self.print_tool = AdobeReader(
-                printer_name=self.name,
-                driver_name=self.driver,
-                port_name=self.port,
-            )
-        elif pltfrm == 'Darwin':
-            raise NotImplementedError
+            args = ['wmic', 'printer', 'get', 'Default,DriverName,Name,PortName']
+        # elif pltfrm == 'Darwin':
+        #     args = ["lpstat -p | awk '{print $2}'"]
+        #     shell = True
         else:
             raise NotImplementedError
 
-    def send(self, print_file: pathlib.Path, timeout=30) -> None:
-        """
-        Send a file to the printer
+        proc = subprocess.run(
+            args=args,
+            capture_output=True,
+            encoding='utf-8',
+            text=True,
+            shell=shell,
+        )
 
-        :param print_file: File-like object that should be printed
-        :param timeout: Timeout in seconds
-        :return: True if file was sent to printer, False otherwise
-        """
-        if not print_file.is_file():
-            raise FileNotFoundError
+        lines = proc.stdout.splitlines()
+        printers = []
+        for line in lines:
+            line = line.strip()
+            if line not in [None, '', '\n'] and not line.startswith('Default'):
+                # values in a line as defined above in the args (alphabetical order):
+                # Default, DriverName, Name, PortName
+                # Windows only implementation
+                values = re.split(r'\s{2,}', line)
+                printer = Printer(
+                    printer_name=values[2],
+                    driver_name=values[1],
+                    port_name=values[3],
+                    _default=True if values[0].lower() in ['true', '1', 't', 'y', 'yes'] else False,
+                )
+                printers.append(printer)
 
-        args = self.print_tool.get_args(print_file=print_file)
-        try:
-            proc = subprocess.run(args=args, timeout=timeout)
-        except subprocess.TimeoutExpired:
-            pass
+        return printers
+
+    @classmethod
+    def get_default(cls) -> 'Printer':
+        """Get the default printer
+
+        :return: Printer
+        """
+        printers = Printer.get_list()
+        for printer in printers:
+            if printer._default:
+                return printer

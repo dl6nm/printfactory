@@ -92,3 +92,14 @@ class AdobeAcrobat(AdobeReader):
             **kwargs
         )
         self.name = kwargs.get('name', 'Adobe Acrobat')
+
+    def _set_args(self, print_file: pathlib.Path) -> List[str]:
+        reader_args = [
+            '/n',  # Start a separate instance of Acrobat or Adobe Reader, even if one is currently open
+            '/t',
+            print_file
+        ]
+        args = self.set_args(
+            reader_args
+        )
+        return args

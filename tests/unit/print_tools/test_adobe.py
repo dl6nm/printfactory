@@ -45,11 +45,6 @@ class TestAdobe:
         assert print_tool.args is None
         assert print_tool.timeout == 60
 
-
-
-
-
-
     @pytest.mark.parametrize(
         argnames=['print_file_name', 'printer_variation', 'args_expected_printer'],
         argvalues=[
@@ -75,8 +70,7 @@ class TestAdobe:
             print_file_name, printer_variation, args_expected_printer, original_datadir
     ):
         print_file = original_datadir / print_file_name
-
-        _args_expected = args_expected
+        _args_expected = args_expected.copy()
 
         for arg in range(len(_args_expected)):
             if _args_expected[arg] == '{print_file}':

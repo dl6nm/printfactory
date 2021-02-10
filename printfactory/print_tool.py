@@ -57,7 +57,8 @@ class PrintTool:
             raise NotImplementedError
 
         args = [self.app_path.absolute()]
-        args.extend(self.args)
+        if self.args:
+            args.extend(self.args)
 
         proc = subprocess.run(
             args=args,

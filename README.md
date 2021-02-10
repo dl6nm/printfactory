@@ -9,13 +9,12 @@ using a print tool like [Adobe Reader][AdobeReader] or [Foxit Reader][FoxitReade
 
     import pathlib
     import printfactory
-
-    printer = printfactory.Printer(
-        printer_name='My Printers Name',
-    )
-
-    print_file = pathlib.Path('path/to/my.pdf')
-    printer.send(print_file)
+    
+    printer = printfactory.Printer()
+    print_tool = printfactory.AdobeReader(printer)
+    
+    file = pathlib.Path('my.pdf')
+    print_tool.print_file(file)
 
 ## Table of Contents
 

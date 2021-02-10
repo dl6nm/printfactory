@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "printfactory"
-version = "0.1.0-alpha.3"
+version = "0.1.0-beta.1"
 description = "Print PDF files to a local installed printer using a print tool"
 license = "MIT"
 authors = ["dl6nm <mail@dl6nm.de>"]
 readme = "README.md"
 repository = "https://github.com/dl6nm/printfactory"
-keywords = ["print", "pdf", "files"]
+keywords = ["print", "pdf", "files", "printfactory"]
 classifiers = [
     "Operating System :: MacOS",
     "Operating System :: Microsoft :: Windows",

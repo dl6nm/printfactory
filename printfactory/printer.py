@@ -34,7 +34,7 @@ class Printer:
             raise TypeError('Missing driver')
 
     def __repr__(self):
-        return f'{self.__class__.__name__}(printer_name={self.name}, driver_name={self.driver}, port_name={self.port}, default={self._default})'
+        return f'{self.__class__.__name__}(printer_name="{self.name}", driver_name="{self.driver}", port_name="{self.port}", default="{self._default}")'
 
     def is_default(self):
         return self._default
@@ -78,7 +78,7 @@ class Printer:
                     printer_name=values[2],
                     driver_name=values[1],
                     port_name=values[3],
-                    _default=bool(values[0]),
+                    _default=True if values[0].lower() in ['true', '1', 't', 'y', 'yes'] else False,
                 )
                 printers.append(printer)
 

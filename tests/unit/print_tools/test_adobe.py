@@ -6,7 +6,7 @@ from printfactory import AdobeReader, Printer, PrintTool
 
 
 @pytest.mark.parametrize(
-    argnames=['print_tool_name', 'name', 'printer', 'app_path', 'args'],
+    argnames=['print_tool_name', 'name', 'printer', 'app_path', 'args', 'args_expected'],
     argvalues=[
         [
             'AdobeReader',
@@ -14,6 +14,7 @@ from printfactory import AdobeReader, Printer, PrintTool
             Printer('BlackHole', None, None),
             pathlib.Path(r'C:\Program Files (x86)\Adobe\Acrobat Reader DC\Reader\AcroRd32.exe'),
             None,
+            ['/n', '/t', '{print_file}', 'BlackHole'],
         ],
         [
             'AdobeAcrobat',
@@ -21,6 +22,7 @@ from printfactory import AdobeReader, Printer, PrintTool
             Printer('BlackHole', None, None),
             pathlib.Path(r'C:\Program Files (x86)\Adobe\Acrobat DC\Acrobat\Acrobat.exe'),
             None,
+            ['/n', '/t', '{print_file}'],
         ],
     ],
     ids=[
@@ -32,7 +34,7 @@ class TestAdobe:
     """AdobeReader and AdobeAcrobat class tests"""
 
     def test_initialization(
-            self, printer, print_tool, print_tool_name, name, app_path, args
+            self, printer, print_tool, print_tool_name, name, app_path, args, args_expected
     ):
         assert isinstance(print_tool, PrintTool)
         assert isinstance(print_tool, AdobeReader)
@@ -44,17 +46,16 @@ class TestAdobe:
         assert print_tool.timeout == 60
 
     @pytest.mark.parametrize(
-        argnames=['print_file_name', 'args_expected'],
+        argnames=['print_file_name'],
         argvalues=[
             [
                 'my.pdf',
-                ['/n', '/t', '{print_file}', 'BlackHole'],
             ],
         ],
     )
     def test__set_args(
-            self, printer, print_tool, print_tool_name, name, app_path, args,
-            print_file_name, args_expected, original_datadir
+            self, printer, print_tool, print_tool_name, name, app_path, args, args_expected,
+            print_file_name, original_datadir
     ):
         print_file = original_datadir / print_file_name
 
@@ -74,7 +75,7 @@ class TestAdobe:
         ],
     )
     def test_print_file(
-            self, printer, print_tool, print_tool_name, name, app_path, args,
+            self, printer, print_tool, print_tool_name, name, app_path, args, args_expected,
             print_file_name, raises, original_datadir
     ):
         print_file = original_datadir / print_file_name

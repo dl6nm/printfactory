@@ -79,6 +79,11 @@ class AdobeAcrobat(AdobeReader):
     !!! Windows only !!!
 
     Implementation details see :class:`AdobeReader`
+
+    **Known issues**
+
+    - Currently files could only be printed to the systems default printer.
+      This is due to a problem with the command line arguments sent to Adobe Acrobat Pro.
     """
     def __init__(
             self,

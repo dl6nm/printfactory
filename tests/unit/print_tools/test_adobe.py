@@ -104,3 +104,20 @@ class TestAdobe:
             with pytest.raises(raises) as execinfo:
                 print_tool.print_file(file=print_file)
             assert execinfo.value.args[0].endswith('does not exist')
+
+    @pytest.mark.parametrize(
+        argnames=['print_file_name', 'copies'],
+        argvalues=[
+            ['my.pdf', None],
+            ['my.pdf', 2],
+            ['my.pdf', 5],
+        ],
+    )
+    def test_print_file_copies(
+            self, printer, print_tool, print_tool_name, name, app_path, args, args_expected,
+            print_file_name, copies, original_datadir
+    ):
+        print_file = original_datadir / print_file_name
+
+        printed = print_tool.print_file(file=print_file, copies=copies)
+        assert printed

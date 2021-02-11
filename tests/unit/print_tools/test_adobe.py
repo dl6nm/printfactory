@@ -106,18 +106,25 @@ class TestAdobe:
             assert execinfo.value.args[0].endswith('does not exist')
 
     @pytest.mark.parametrize(
-        argnames=['print_file_name', 'copies'],
+        argnames=['print_file_name', 'copies', 'raises'],
         argvalues=[
-            ['my.pdf', None],
-            ['my.pdf', 2],
-            ['my.pdf', 5],
+            ['my.pdf', None, ValueError],
+            ['my.pdf', 0, ValueError],
+            ['my.pdf', 'three', ValueError],
+            ['my.pdf', 1, None],
+            ['my.pdf', 3, None],
         ],
     )
     def test_print_file_copies(
             self, printer, print_tool, print_tool_name, name, app_path, args, args_expected,
-            print_file_name, copies, original_datadir
+            print_file_name, copies, raises, original_datadir
     ):
         print_file = original_datadir / print_file_name
 
-        printed = print_tool.print_file(file=print_file, copies=copies)
-        assert printed
+        if not raises:
+            printed = print_tool.print_file(file=print_file, copies=copies)
+            assert printed
+        else:
+            with pytest.raises(raises) as execinfo:
+                print_tool.print_file(file=print_file, copies=copies)
+            assert execinfo.value.args[0].endswith('is not a valid number of copies')

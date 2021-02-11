@@ -62,14 +62,22 @@ class AdobeReader(PrintTool):
         )
         return args
 
-    def print_file(self, file: pathlib.Path) -> bool:
+    def print_file(self, file: pathlib.Path, copies: int = 1) -> bool:
         if not file.absolute().exists():
             raise FileNotFoundError(f'"{file.absolute()}" does not exist')
+
+        if type(copies) is not int or copies < 1:
+            raise ValueError(f'{copies} is not a valid number of copies')
+
         self._set_args(print_file=file.absolute())
-        proc = self.run()
-        if proc.returncode <= 1:
-            return True
-        return False
+
+        success = True
+        for i in range(copies):
+            proc = self.run()
+            if proc.returncode > 1:
+                success = False
+
+        return success
 
 
 class AdobeAcrobat(AdobeReader):

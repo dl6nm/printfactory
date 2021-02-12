@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning].
 - add generic _PrintTool_ class for sending files to a printer
 - add _AdobeReader_ class for sending files to a _Printer_
 - add _AdobeAcrobat_ class for sending files to a _Printer_
+- add parameter _copies_ to class method _print_file()_ for printing one or more copies of a file
 
 #### Known issues
 

@@ -62,7 +62,7 @@ class AdobeReader(PrintTool):
         )
         return args
 
-    def print_file(self, file: pathlib.Path, copies: int = 1) -> bool:
+    def print_file(self, file: pathlib.Path, copies: int = 1, **kwargs) -> bool:
         if not file.absolute().exists():
             raise FileNotFoundError(f'"{file.absolute()}" does not exist')
 

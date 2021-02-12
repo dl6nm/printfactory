@@ -70,3 +70,6 @@ class PrintTool:
         )
 
         return proc
+
+    def print_file(self, file: pathlib.Path, copies: int = 1, **kwargs):
+        pass

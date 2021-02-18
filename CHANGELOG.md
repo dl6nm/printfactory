@@ -7,13 +7,17 @@ and this project adheres to [Semantic Versioning].
 
 ## [Unreleased]
 
-### [0.1.0] (2020-02-10)
+Nothing unreleased yet...
+
+## [Releases]
+
+### [0.1.0] (2020-02-18)
 
 #### Added
 
 - add basic app skeleton example with tests and docs
 - add _Printer_ class to set up a printer for a PrintTool
-- add a function to get a list of installed printers on your system 
+- add a function to get a list of installed printers on your system
 - add generic _PrintTool_ class for sending files to a printer
 - add _AdobeReader_ class for sending files to a _Printer_
 - add _AdobeAcrobat_ class for sending files to a _Printer_
@@ -21,11 +25,8 @@ and this project adheres to [Semantic Versioning].
 
 #### Known issues
 
-- The _AdobeAcrobat_ print tool implementation is limited to only send files to the defaults system printer  
+- The _AdobeAcrobat_ print tool implementation is limited to only send files to the defaults system printer
 
-## [Releases]
-
-No releases yet...
 
 
 [unreleased]: https://github.com/dl6nm/printfactory/compare/master...develop

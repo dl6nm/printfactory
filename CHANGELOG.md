@@ -11,6 +11,12 @@ Nothing unreleased yet...
 
 ## [Releases]
 
+### [0.1.1] (2020-02-18)
+
+#### Fixed
+
+- fix UploadError with a version number used in very first upload
+
 ### [0.1.0] (2020-02-18)
 
 #### Added
@@ -30,6 +36,7 @@ Nothing unreleased yet...
 
 
 [unreleased]: https://github.com/dl6nm/printfactory/compare/master...develop
+[0.1.1]: https://github.com/dl6nm/printfactory/releases/tag/0.1.1
 [0.1.0]: https://github.com/dl6nm/printfactory/releases/tag/0.1.0
 
 [releases]: https://github.com/dl6nm/printfactory/releases

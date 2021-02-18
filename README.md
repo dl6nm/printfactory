@@ -21,6 +21,8 @@ using a print tool like [Adobe Reader][AdobeReader] or [Foxit Reader][FoxitReade
 - [Why?](#why)
 - [Requirements](#requirements)
 - [Installing `printfactory`](#installing-printfactory)
+- [Known issues](#known-issues)
+- [Contributing](#contributing)
 - [Changelog](#changelog)
 
 ## Why?
@@ -40,6 +42,10 @@ Only publicly and freely available software should be used on the client or serv
 To install the latest version of `printfactory` use pip as simple as follows.
 
     pip install printfactory
+
+## Known issues
+
+- The _AdobeAcrobat_ print tool implementation is limited to only send files to the defaults system printer
 
 ## Contributing
 

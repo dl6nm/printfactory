@@ -13,6 +13,10 @@ classifiers = [
     "Topic :: Printing",
 ]
 
+[tool.poetry.urls]
+"Issue tracker" = "https://github.com/dl6nm/printfactory/issues"
+"Changelog" = "https://github.com/dl6nm/printfactory/blob/main/CHANGELOG.md"
+
 [tool.poetry.dependencies]
 python = "^3.8"
 pydantic = "^1.7.3"

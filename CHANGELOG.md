@@ -36,7 +36,8 @@ Nothing unreleased yet...
 
 
 [unreleased]: https://github.com/dl6nm/printfactory/compare/master...develop
-[0.1.1]: https://github.com/dl6nm/printfactory/releases/tag/0.1.1
+
+[0.1.1]: https://github.com/dl6nm/printfactory/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/dl6nm/printfactory/releases/tag/0.1.0
 
 [releases]: https://github.com/dl6nm/printfactory/releases

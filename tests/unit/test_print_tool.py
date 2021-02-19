@@ -2,7 +2,7 @@ import pathlib
 
 import pytest
 
-from printfactory import Printer, PrintTool
+from printfactory import Printer, GenericPrintTool
 
 
 @pytest.mark.parametrize(
@@ -83,5 +83,5 @@ class TestPrintToolFail:
 
     def test_initialization_fail(self, printer, app_path, args, name):
         with pytest.raises(FileNotFoundError) as execinfo:
-            PrintTool(printer=printer, app_path=app_path, args=args, name=name)
+            GenericPrintTool(printer=printer, app_path=app_path, args=args, name=name)
         assert execinfo.value.args[0] == 'PrintTool "." does not exist'

@@ -2,7 +2,7 @@ import pathlib
 
 import pytest
 
-from printfactory import AdobeReader, Printer, PrintTool
+from printfactory import AdobeReader, Printer, GenericPrintTool
 
 
 @pytest.mark.parametrize(
@@ -36,7 +36,7 @@ class TestAdobe:
     def test_initialization(
             self, printer, print_tool, print_tool_name, name, app_path, args, args_expected
     ):
-        assert isinstance(print_tool, PrintTool)
+        assert isinstance(print_tool, GenericPrintTool)
         assert isinstance(print_tool, AdobeReader)
         assert print_tool.exists() is True
         assert print_tool.name == name

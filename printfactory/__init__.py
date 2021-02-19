@@ -9,7 +9,7 @@ from .print_tools.adobe import *
 
 __all__ = [
     'Printer',
-    'PrintTool',
+    'GenericPrintTool',
     'AdobeReader',
     'AdobeAcrobat',
 ]

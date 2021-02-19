@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning].
 
 ## [Unreleased]
 
-Nothing unreleased yet...
+### [0.1.2]-alpha.0 (2020-02-19)
+
+#### Changed
+
+- change class name from _PrintTool_ to _GenericPrintTool_
 
 ## [Releases]
 
@@ -24,7 +28,7 @@ Nothing unreleased yet...
 - add basic app skeleton example with tests and docs
 - add _Printer_ class to set up a printer for a PrintTool
 - add a function to get a list of installed printers on your system
-- add generic _PrintTool_ class for sending files to a printer
+- add _GenericPrintTool_ class for sending files to a printer
 - add _AdobeReader_ class for sending files to a _Printer_
 - add _AdobeAcrobat_ class for sending files to a _Printer_
 - add parameter _copies_ to class method _print_file()_ for printing one or more copies of a file
@@ -35,8 +39,9 @@ Nothing unreleased yet...
 
 
 
-[unreleased]: https://github.com/dl6nm/printfactory/compare/master...develop
+[unreleased]: https://github.com/dl6nm/printfactory/compare/main...develop
 
+[0.1.2]: https://github.com/dl6nm/printfactory/compare/0.1.1...develop
 [0.1.1]: https://github.com/dl6nm/printfactory/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/dl6nm/printfactory/releases/tag/0.1.0
 

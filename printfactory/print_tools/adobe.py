@@ -3,10 +3,10 @@ import platform
 
 from typing import List
 
-from .. import Printer, PrintTool
+from .. import Printer, GenericPrintTool
 
 
-class AdobeReader(PrintTool):
+class AdobeReader(GenericPrintTool):
     """
     Adobe Reader specific model
 

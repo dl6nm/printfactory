@@ -7,7 +7,7 @@ from typing import List
 from . import Printer
 
 
-class PrintTool:
+class GenericPrintTool:
     """Generic PrintTool"""
 
     def __init__(

@@ -3,7 +3,7 @@ import platform
 
 from typing import List
 
-from .. import Printer, GenericPrintTool
+from printfactory import Printer, GenericPrintTool
 
 
 class AdobeReader(GenericPrintTool):

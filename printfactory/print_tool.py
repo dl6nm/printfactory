@@ -4,7 +4,7 @@ import subprocess
 
 from typing import List
 
-from . import Printer
+from printfactory import Printer
 
 
 class GenericPrintTool:

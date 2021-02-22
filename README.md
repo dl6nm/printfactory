@@ -3,7 +3,7 @@
 `printfactory` is a package for printing PDF files to a physical printer 
 using a print tool like [Adobe Reader][AdobeReader] or [Foxit Reader][FoxitReader].
 
-[![License?][shield-license]](LICENSE)
+[![License?][shield-license]][LICENSE]
 
 **Example usage**
 
@@ -53,7 +53,7 @@ If you'd like to contribute to this project [Poetry][poetry] is recommended.
 
 ## Changelog
 
-All notable changes to this project will be documented in the [CHANGELOG.md](CHANGELOG.md).
+All notable changes to this project will be documented in the [CHANGELOG.md][CHANGELOG.md].
 
 
 
@@ -65,3 +65,6 @@ All notable changes to this project will be documented in the [CHANGELOG.md](CHA
 [python]: https://www.python.org/
 [pip]: https://pypi.org/project/pip/
 [poetry]: https://python-poetry.org/
+
+[CHANGELOG.md]: https://github.com/dl6nm/printfactory/blob/main/CHANGELOG.md
+[LICENSE]: https://github.com/dl6nm/printfactory/blob/main/LICENSE
